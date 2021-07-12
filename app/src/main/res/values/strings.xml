@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Home Solution</string>
+
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+
+    <string name="menu_filter">Filter</string>
+    <string name="menu_logout">Logout</string>
+
+    <string-array name="location_spinner">
+
+        <item>Maijdee Bazar</item>
+        <item>Housing</item>
+        <item>Powro Bazar</item>
+        <item>Bissonath</item>
+        <item>Sonapur</item>
+        <item>Varsity Area</item>
+        <item>Dotto Bari</item>
+
+    </string-array>
+
+</resources>

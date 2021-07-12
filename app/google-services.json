@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "589424692453",
+    "project_id": "houserentproject",
+    "storage_bucket": "houserentproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589424692453:android:62cf5327f675d1077b180c",
+        "android_client_info": {
+          "package_name": "com.example.houserentproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "589424692453-tqb0tn8g060cfep7sq4jbd04ce4rl9vr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVcQDRZu0dcX-I-iLc9y2HPwKdWSwKEK8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "589424692453-tqb0tn8g060cfep7sq4jbd04ce4rl9vr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

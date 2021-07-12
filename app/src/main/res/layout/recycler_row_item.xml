@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="7dp"
+        android:id="@+id/myCardViewId"
+        android:layout_width="match_parent"
+        android:layout_height="365dp"
+        app:cardElevation="3dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/white"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:weightSum="6"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="4.5"
+                android:scaleType="centerCrop"
+                android:id="@+id/ivImageId"
+                android:src="@drawable/image1"
+                />
+
+            <LinearLayout
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:weightSum="1"
+                android:layout_weight="1.5">
+                
+                <LinearLayout
+                    android:layout_marginRight="2dp"
+                    android:background="@color/background"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:padding="7dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_marginTop="1dp"
+                        android:background="@color/white"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Rent Fare"
+                        android:textStyle="bold"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:background="@color/white"
+                        android:layout_marginTop="3dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="8000 BDT"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:id="@+id/tvRentAmountId"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginRight="1dp"
+                    android:background="@color/background"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:padding="7dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_marginTop="1dp"
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Location"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:background="@color/white"
+                        android:layout_marginTop="3dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Maijdee"
+                        android:textSize="17sp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:id="@+id/tvLocationId"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

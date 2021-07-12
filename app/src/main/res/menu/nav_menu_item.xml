@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/homeMenuId"
+            android:title="Home"
+            android:icon="@drawable/ic_baseline_home"/>
+
+        <item
+            android:id="@+id/favMenuId"
+            android:title="Favourites"
+            android:icon="@drawable/ic_favourite_icon"/>
+
+        <item
+            android:id="@+id/profileMenuId"
+            android:title="Profile"
+            android:icon="@drawable/ic_baseline_person_24"/>
+
+        <item
+            android:id="@+id/accountVeriMenuId"
+            android:title="Verification"
+            android:icon="@drawable/ic_baseline_verified_24"/>
+
+        <item
+            android:id="@+id/myPostMenuId"
+            android:title="My Post"
+            android:icon="@drawable/ic_baseline_post_add_24"/>
+
+        <item
+            android:id="@+id/helpMenuId"
+            android:title="Help"
+            android:icon="@drawable/ic_baseline_help_24"/>
+
+        <item
+            android:id="@+id/contactUsMenuId"
+            android:title="Contact Us"
+            android:icon="@drawable/ic_baseline_contact_phone_24"/>
+    </group>
+
+</menu>

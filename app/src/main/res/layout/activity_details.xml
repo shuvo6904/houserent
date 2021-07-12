@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailsActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivImage2Id"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/image1"
+        android:scaleType="centerCrop"
+        />
+
+        <CheckBox
+            android:id="@+id/checkboxFavourite"
+            android:background="@drawable/favourite_selector"
+            android:button="@android:color/transparent"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="end"
+            android:layout_width="35dp"
+            android:layout_height="35dp"/>
+
+    <TextView
+        android:id="@+id/rentedAmountId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="20dp"
+        android:text="Rented Amount : "
+        android:textSize="19sp"/>
+
+    <TextView
+        android:id="@+id/homeLocationId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="20dp"
+        android:text="Location : "
+        android:textSize="19sp"/>
+
+    <TextView
+        android:id="@+id/detailsAddressId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="20dp"
+        android:text="Details Address : "
+        android:textSize="19sp"/>
+
+    <TextView
+        android:id="@+id/buildingNameId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="20dp"
+        android:text="Building Name : "
+        android:textSize="19sp"/>
+
+    <TextView
+        android:id="@+id/floorNumberId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="20dp"
+        android:text="Floor Number : "
+        android:textSize="19sp"/>
+
+    <TextView
+        android:id="@+id/genderValueId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="20dp"
+        android:text="Gender Type : "
+        android:textSize="19sp"/>
+
+    <TextView
+        android:id="@+id/rentTypeValueId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="20dp"
+        android:text="Rent Type : "
+        android:textSize="19sp"/>
+
+    <TextView
+        android:id="@+id/datePickerId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="20dp"
+        android:text="Rent Date : "
+        android:textSize="19sp"/>
+
+        <TextView
+            android:id="@+id/postedById"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Posted By "
+            android:padding="20dp"
+            android:textSize="19sp"/>
+
+
+
+    </LinearLayout>
+
+</ScrollView>
+
