@@ -63,34 +63,33 @@ public class AccountVerification extends AppCompatActivity {
 
             buttonEmailVerify.setVisibility(View.VISIBLE);
             textViewEmailVerify.setVisibility(View.VISIBLE);
-
-            buttonEmailVerify.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-
-                            Toast.makeText(AccountVerification.this, "Email verification link has been sent.\nPlease check your email", Toast.LENGTH_LONG).show();
-
-                           // buttonEmailVerify.setVisibility(View.GONE);
-                           // textViewEmailVerify.setVisibility(View.GONE);
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                            Log.d("tag", "onFailure : Email not sent " + e.getMessage());
-
-                        }
-                    });
-
-                }
-            });
-
         }
+
+        buttonEmailVerify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        Toast.makeText(AccountVerification.this, "Email verification link has been sent.\nPlease check your email", Toast.LENGTH_LONG).show();
+
+                        // buttonEmailVerify.setVisibility(View.GONE);
+                        // textViewEmailVerify.setVisibility(View.GONE);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        Log.d("tag", "onFailure : Email not sent " + e.getMessage());
+
+                    }
+                });
+
+            }
+        });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

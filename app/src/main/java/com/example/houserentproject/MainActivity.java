@@ -245,6 +245,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(this, FavListActivity.class));
         }
 
+        if (item.getItemId() == R.id.profileMenuId){
+            startActivity(new Intent(this, Profile.class));
+            //finish();
+        }
+
         return false;
     }
 }
