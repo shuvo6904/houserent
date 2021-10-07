@@ -126,15 +126,15 @@
                 android:onClick="tvAlreadyRegistered"/>
 
             <Button
-                android:onClick="register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Register"
-                android:textSize="22sp"
-                android:textColor="#ffffff"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="16dp"
-                android:background="@drawable/button_rounded"/>
+                android:background="@drawable/button_rounded"
+                android:onClick="register"
+                android:text="Register"
+                android:textColor="#ffffff"
+                android:textSize="22sp" />
 
         </LinearLayout>
 

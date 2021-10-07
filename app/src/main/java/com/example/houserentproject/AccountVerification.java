@@ -59,6 +59,9 @@ public class AccountVerification extends AppCompatActivity {
 
         FirebaseUser user = fAuth.getCurrentUser();
 
+        if (user != null)
+            user.reload();
+
         if (!user.isEmailVerified()){
 
             buttonEmailVerify.setVisibility(View.VISIBLE);

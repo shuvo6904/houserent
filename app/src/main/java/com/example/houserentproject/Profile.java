@@ -34,6 +34,9 @@ public class Profile extends AppCompatActivity {
 
         FirebaseUser user = fAuth.getCurrentUser();
 
+        if (user != null)
+            user.reload();
+
         if (!user.isEmailVerified()){
             Log.d("profile_", "onCreate: email is not verified");
             profileEmailVerifyButton.setVisibility(View.VISIBLE);
