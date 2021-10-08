@@ -17,7 +17,7 @@
         android:id="@+id/ivImage2Id"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:src="@drawable/image1"
+        android:src="@drawable/ic_baseline_image_24"
         android:scaleType="centerCrop"
         />
 

@@ -29,7 +29,7 @@
                 android:layout_weight="4.5"
                 android:scaleType="centerCrop"
                 android:id="@+id/ivImageId"
-                android:src="@drawable/image1"
+                android:src="@drawable/ic_baseline_image_24"
                 />
 
             <LinearLayout
