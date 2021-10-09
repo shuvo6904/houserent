@@ -48,8 +48,6 @@
                 app:fabSize="mini" />
 
 
-
-
             <TextView
                 android:id="@+id/profileNameId"
                 android:layout_width="wrap_content"
@@ -58,7 +56,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/editableProfileImageViewId"
                 android:includeFontPadding="false"
-                android:text="Shuvo Talukdar"
+                android:text="Not Set"
                 android:textColor="@color/black"
                 android:textSize="25dp"
                 android:textStyle="bold" />
@@ -71,7 +69,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/editableProfileImageViewId"
                 android:includeFontPadding="false"
-                android:text="example@gmail.com"
+                android:text="Not Set"
                 android:textColor="@color/black"
                 android:textSize="16dp" />
 
@@ -110,62 +108,57 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:background="#E6B923"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="455dp"
+            android:background="#E6B923"
             android:orientation="vertical">
 
             <Button
-                android:layout_marginTop="40dp"
-                android:layout_gravity="center"
                 android:id="@+id/editProfileButtonId"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
                 android:padding="5dp"
                 android:text="Edit"
                 android:textStyle="bold" />
 
 
             <TextView
-                android:layout_marginTop="50dp"
-                android:layout_marginLeft="90dp"
+                android:id="@+id/editableProfileNameId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Name : Shuvo Talukdar"
+                android:layout_marginLeft="90dp"
+                android:layout_marginTop="50dp"
+                android:text="Name : Not Set"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_marginTop="50dp"
-                android:layout_marginLeft="90dp"
+                android:id="@+id/editableProfileEmailId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="NID Number : 72387398"
+                android:layout_marginLeft="90dp"
+                android:layout_marginTop="50dp"
+                android:text="Email : Not Set"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_marginTop="50dp"
-                android:layout_marginLeft="90dp"
+                android:id="@+id/editableProfilePhnNumId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Phone Number : 01792387398"
+                android:layout_marginLeft="90dp"
+                android:layout_marginTop="50dp"
+                android:text="Phone Number : Not Set"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:layout_marginBottom="50dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginLeft="90dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Email : example@gmail.com"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+
+
 
         </LinearLayout>
 

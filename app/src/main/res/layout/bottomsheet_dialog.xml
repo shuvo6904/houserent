@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Name"
                 android:inputType="text"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -34,17 +34,18 @@
             app:boxBackgroundMode="outline"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:endIconMode="clear_text"
-            >
+            android:layout_marginTop="10dp">
 
             <EditText
-                android:id="@+id/editNidNumberId"
+                android:id="@+id/editEmailId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="NID Number"
+                android:hint="Email"
                 android:inputType="text"
                 android:textSize="20sp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_margin="15dp"
@@ -65,25 +66,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_margin="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:boxBackgroundMode="outline"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:endIconMode="clear_text">
-
-            <EditText
-                android:id="@+id/editEmailId"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Email"
-                android:inputType="text"
-                android:textSize="20sp"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:layout_marginTop="8dp"
