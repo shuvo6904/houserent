@@ -69,12 +69,8 @@ public class Profile extends AppCompatActivity {
 
 
         fAuth = FirebaseAuth.getInstance();
-
         FirebaseUser user = fAuth.getCurrentUser();
-
         firebaseFirestore = FirebaseFirestore.getInstance();
-
-
         DocumentReference documentReference = firebaseFirestore.collection("users").document(user.getUid());
 
         if (user != null)

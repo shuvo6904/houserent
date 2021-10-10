@@ -214,6 +214,8 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
         String myCurrentDateTime = DateFormat.getDateTimeInstance()
                 .format(Calendar.getInstance().getTime());
 
+        String postStatus = "Pending";
+
         HomePageData homePageData = new HomePageData(
                 txtRentedAmount.getText().toString(),
                 locationSpinner.getSelectedItem().toString(),
@@ -226,7 +228,8 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
                 datePicker.getText().toString(),
                 userName,
                 userPhnNumber,
-                myCurrentDateTime
+                myCurrentDateTime,
+                postStatus
 
         );
 

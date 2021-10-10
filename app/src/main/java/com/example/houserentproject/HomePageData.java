@@ -3,6 +3,7 @@ package com.example.houserentproject;
 import java.io.Serializable;
 
 public class HomePageData implements Serializable {
+
     private String rentAmount;
     private String location;
     private String image;
@@ -15,13 +16,13 @@ public class HomePageData implements Serializable {
     private String nameOfUser;
     private String phnNumOfUser;
     private String id;
+    private String postStatus;
 
 
     public HomePageData() {
-
     }
 
-    public HomePageData(String rentAmount, String location, String image, String buildingName, String floorNumber, String detailsAddress, String valueOfGender, String valueOfRentType, String datePick, String nameOfUser, String phnNumOfUser,String id) {
+    public HomePageData(String rentAmount, String location, String image, String buildingName, String floorNumber, String detailsAddress, String valueOfGender, String valueOfRentType, String datePick, String nameOfUser, String phnNumOfUser, String id, String postStatus) {
         this.rentAmount = rentAmount;
         this.location = location;
         this.image = image;
@@ -34,7 +35,10 @@ public class HomePageData implements Serializable {
         this.nameOfUser = nameOfUser;
         this.phnNumOfUser = phnNumOfUser;
         this.id = id;
+        this.postStatus = postStatus;
     }
+
+
 
     public String getId() {
         return id;
@@ -79,4 +83,7 @@ public class HomePageData implements Serializable {
     public String getPhnNumOfUser() {
         return phnNumOfUser;
     }
+
+    public String getPostStatus(){return postStatus;}
+
 }
