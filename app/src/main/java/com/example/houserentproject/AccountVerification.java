@@ -31,7 +31,7 @@ import java.util.UUID;
 
 public class AccountVerification extends AppCompatActivity {
 
-    private TextView textViewEmailVerify;
+    /** private TextView textViewEmailVerify;
     private Button buttonEmailVerify;
 
     private ImageView frontImageView, backImageView;
@@ -221,7 +221,7 @@ public class AccountVerification extends AppCompatActivity {
 
         }
 
-    }
+    } **/
 
 
 

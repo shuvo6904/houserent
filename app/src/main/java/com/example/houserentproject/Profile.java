@@ -43,10 +43,11 @@ public class Profile extends AppCompatActivity {
     private Button profileEmailVerifyButton, editProfileButton;
     private BottomSheetDialog sheetDialog;
     private FirebaseAuth fAuth;
-    private ImageView profileImage;
-    private StorageReference storageReference, profileStorageRef;
+    private ImageView profileImage, frontImageView, backImageView;
+    private StorageReference storageReference, profileStorageRef, frontVeriStorageReference, backVeriStorageReference;
     private FirebaseFirestore firebaseFirestore;
     private TextView profileName, profileEmail, proEditableName, proEditablePhnNum, proEditableEmail, checkIsEmailVerified;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +64,32 @@ public class Profile extends AppCompatActivity {
         proEditableEmail = (TextView) findViewById(R.id.editableProfileEmailId);
         checkIsEmailVerified = (TextView) findViewById(R.id.checkIsEmailVerifiedId);
 
+        frontImageView = (ImageView) findViewById(R.id.frontImageId);
+        backImageView = (ImageView) findViewById(R.id.backImageId);
+
+
         fAuth = FirebaseAuth.getInstance();
 
         FirebaseUser user = fAuth.getCurrentUser();
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+
         DocumentReference documentReference = firebaseFirestore.collection("users").document(user.getUid());
+
+        if (user != null)
+            user.reload();
+
+        if (!user.isEmailVerified()){
+            Log.d("profile_", "onCreate: email is not verified");
+            profileEmailVerifyButton.setVisibility(View.VISIBLE);
+            checkIsEmailVerified.setText("Email Unverified");
+
+        }else{
+            checkIsEmailVerified.setText("Email Verified");
+            Log.d("profile_", "onCreate: email is verified");
+        }
+
 
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
@@ -87,6 +107,9 @@ public class Profile extends AppCompatActivity {
 
         storageReference = FirebaseStorage.getInstance().getReference();
         profileStorageRef = storageReference.child("Users/"+user.getUid()+"/profile.jpg");
+        frontVeriStorageReference = storageReference.child("Users/"+user.getUid()+"/frontImage.jpg");
+        backVeriStorageReference = storageReference.child("Users/"+user.getUid()+"/backImage.jpg");
+
         profileStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -94,19 +117,19 @@ public class Profile extends AppCompatActivity {
             }
         });
 
+        frontVeriStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(frontImageView);
+            }
+        });
 
-        if (user != null)
-            user.reload();
-
-        if (!user.isEmailVerified()){
-            Log.d("profile_", "onCreate: email is not verified");
-            profileEmailVerifyButton.setVisibility(View.VISIBLE);
-            checkIsEmailVerified.setText("Email Unverified");
-
-        }else{
-            checkIsEmailVerified.setText("Email Verified");
-            Log.d("profile_", "onCreate: email is verified");
-        }
+        backVeriStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(backImageView);
+            }
+        });
 
         profileEmailVerifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,6 +242,26 @@ public class Profile extends AppCompatActivity {
 
     }
 
+    public void uploadFrontImageBtn(View view) {
+
+        ImagePicker.with(Profile.this)
+                .cameraOnly()	//User can only capture image using Camera
+                .crop()	    			//Crop image(Optional), Check Customization for more option
+                .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                .start(2000);
+    }
+
+    public void uploadBackImageBtn(View view) {
+
+        ImagePicker.with(Profile.this)
+                .cameraOnly()	//User can only capture image using Camera
+                .crop()	    			//Crop image(Optional), Check Customization for more option
+                .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                .start(3000);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -228,13 +271,33 @@ public class Profile extends AppCompatActivity {
                 Uri imageUri = data.getData();
                 //profileImage.setImageURI(imageUri);
 
-                uploadImageToFirebase(imageUri);
+                uploadProfileImageToFirebase(imageUri);
+            }
+        }
+
+        if (requestCode == 2000){
+            if (resultCode == Activity.RESULT_OK){
+                Uri imageUri = data.getData();
+                //frontImageView.setImageURI(imageUri);
+
+                uploadFrontImageToFirebase(imageUri);
+            }
+        }
+
+        if (requestCode == 3000){
+            if (resultCode == Activity.RESULT_OK){
+                Uri imageUri = data.getData();
+                //backImageView.setImageURI(imageUri);
+
+                uploadBackImageToFirebase(imageUri);
             }
         }
 
     }
 
-    private void uploadImageToFirebase(Uri imageUri) {
+
+
+    private void uploadProfileImageToFirebase(Uri imageUri) {
         // upload image to firebase storage
         final StorageReference fileRef = storageReference.child("Users/"+fAuth.getCurrentUser().getUid()+"/profile.jpg");
         fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -260,4 +323,63 @@ public class Profile extends AppCompatActivity {
             }
         });
     }
+
+    private void uploadFrontImageToFirebase(Uri imageUri) {
+        // upload front image to firebase storage
+        final StorageReference fileRef = storageReference.child("Users/"+fAuth.getCurrentUser().getUid()+"/frontImage.jpg");
+        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+
+                        Picasso.get().load(uri).into(frontImageView);
+
+                    }
+                });
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(Profile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    private void uploadBackImageToFirebase(Uri imageUri) {
+
+        // upload front image to firebase storage
+        final StorageReference fileRef = storageReference.child("Users/"+fAuth.getCurrentUser().getUid()+"/backImage.jpg");
+        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+
+                        Picasso.get().load(uri).into(backImageView);
+
+                    }
+                });
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(Profile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
+
+
+
 }
