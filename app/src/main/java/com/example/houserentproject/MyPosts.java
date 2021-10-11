@@ -23,11 +23,11 @@ public class MyPosts extends AppCompatActivity {
 
     FirebaseAuth fPostAuth;
     String userPostId;
-    MyAdapter postAdapter;
+    MyPostAdapter postAdapter;
 
     RecyclerView postRecyclerView;
-    List<HomePageData> myHomePagePostDataList;
-    HomePageData postHomePageData;
+    List<MyPostPageData> myPostPageDataList;
+    MyPostPageData postHomePageData;
 
     private DatabaseReference postDatabaseReference;
     private ValueEventListener postEventListener;
@@ -43,15 +43,15 @@ public class MyPosts extends AppCompatActivity {
 
         postRecyclerView = (RecyclerView)findViewById(R.id.postsRecyclerViewId);
 
-        GridLayoutManager postsGridLayoutManager = new GridLayoutManager(MyPosts.this,2);
+        GridLayoutManager postsGridLayoutManager = new GridLayoutManager(MyPosts.this,1);
         postRecyclerView.setLayoutManager(postsGridLayoutManager);
 
         postProgressDialog = new ProgressDialog(this);
         postProgressDialog.setMessage("Loading Data...");
 
-        myHomePagePostDataList = new ArrayList<>();
+        myPostPageDataList = new ArrayList<>();
 
-        postAdapter = new MyAdapter(MyPosts.this, myHomePagePostDataList);
+        postAdapter = new MyPostAdapter(MyPosts.this, myPostPageDataList);
         postRecyclerView.setAdapter(postAdapter);
 
         postDatabaseReference = FirebaseDatabase.getInstance().getReference("Data").child(userPostId);
@@ -62,12 +62,12 @@ public class MyPosts extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                myHomePagePostDataList.clear();
+                myPostPageDataList.clear();
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
 
-                        HomePageData postHomePageData = dataSnapshot.getValue(HomePageData.class);
-                        myHomePagePostDataList.add(postHomePageData);
+                        MyPostPageData postHomePageData = dataSnapshot.getValue(MyPostPageData.class);
+                        myPostPageDataList.add(postHomePageData);
 
                 }
 

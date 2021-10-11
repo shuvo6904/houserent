@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PostDetailsActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivImage3Id"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_baseline_image_24"
+            android:scaleType="centerCrop"
+            />
+
+        <TextView
+            android:id="@+id/rentedMyPostAmountId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="20dp"
+            android:text="Rented Amount : "
+            android:textSize="19sp"/>
+
+        <TextView
+            android:id="@+id/homeLocationMyPostId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="20dp"
+            android:text="Location : "
+            android:textSize="19sp"/>
+
+        <TextView
+            android:id="@+id/detailsAddressMyPostId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="20dp"
+            android:text="Details Address : "
+            android:textSize="19sp"/>
+
+        <TextView
+            android:id="@+id/buildingNameMyPostId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="20dp"
+            android:text="Building Name : "
+            android:textSize="19sp"/>
+
+        <TextView
+            android:id="@+id/floorNumberMyPostId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="20dp"
+            android:text="Floor Number : "
+            android:textSize="19sp"/>
+
+        <TextView
+            android:id="@+id/genderValueMyPostId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="20dp"
+            android:text="Gender Type : "
+            android:textSize="19sp"/>
+
+        <TextView
+            android:id="@+id/rentTypeValueMyPostId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="20dp"
+            android:text="Rent Type : "
+            android:textSize="19sp"/>
+
+        <TextView
+            android:id="@+id/datePickerMyPostId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="20dp"
+            android:text="Rent Date : "
+            android:textSize="19sp"/>
+
+        <TextView
+            android:id="@+id/postedByMyPostId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Posted By "
+            android:padding="20dp"
+            android:textSize="19sp"/>
+
+
+
+    </LinearLayout>
+
+</ScrollView>

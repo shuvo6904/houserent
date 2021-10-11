@@ -52,11 +52,6 @@ public class MyAdapter extends RecyclerView.Adapter<HomePageViewHolder>{
 
                 intent.putExtra("model",model);
 
-                //Not required
-                //intent.putExtra("Image",model.getImage());
-                //intent.putExtra("RentedAmount", model.getRentAmount());
-                //intent.putExtra("Location", model.getLocation());
-
                 mcontext.startActivity(intent);
             }
         });

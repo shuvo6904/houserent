@@ -13,11 +13,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HouseRentProject">
         <activity
+            android:name=".PostDetailsActivity"
+            android:exported="true"
+            android:parentActivityName=".MyPosts">
+
+
+        </activity>
+        <activity
             android:name=".AdminHomeActivity"
             android:exported="true" />
         <activity
             android:name=".Profile"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".MainActivity">
+
+        </activity>
         <activity
             android:name=".FavListActivity"
             android:parentActivityName=".MainActivity" />
