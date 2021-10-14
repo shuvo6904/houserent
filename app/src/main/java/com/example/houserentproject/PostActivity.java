@@ -60,7 +60,7 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
 
-    String userId, userName, userPhnNumber;
+    String userId;
 
     private DatabaseReference rootRef;
 
@@ -106,23 +106,11 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
 
-        userInfo();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
-    private void userInfo() {
-
-        DocumentReference documentReference = fStore.collection("users").document(userId);
-        documentReference.addSnapshotListener(this,new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                userName = value.getString("fName");
-                userPhnNumber = value.getString("PhnNumber");
-            }
-        });
-    }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -216,20 +204,21 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
 
         String postStatus = "Pending";
 
+
         HomePageData homePageData = new HomePageData(
+                imageUrl,
                 txtRentedAmount.getText().toString(),
                 locationSpinner.getSelectedItem().toString(),
-                imageUrl,
                 txtBuildingName.getText().toString(),
                 txtFloorNumber.getText().toString(),
                 txtDetailsAddress.getText().toString(),
                 genderChip.getText().toString(),
                 rentTypeChip.getText().toString(),
                 datePicker.getText().toString(),
-                userName,
-                userPhnNumber,
+                userId,
                 myCurrentDateTime,
                 postStatus
+
 
         );
 

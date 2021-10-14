@@ -19,12 +19,12 @@ import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<HomePageViewHolder>{
 
-    private Context mcontext;
+    private Context mContext;
     private List<HomePageData> myHomePageDataList;
 
 
-    public MyAdapter(Context mcontext, List<HomePageData> myHomePageDataList) {
-        this.mcontext = mcontext;
+    public MyAdapter(Context mContext, List<HomePageData> myHomePageDataList) {
+        this.mContext = mContext;
         this.myHomePageDataList = myHomePageDataList;
     }
 
@@ -39,7 +39,7 @@ public class MyAdapter extends RecyclerView.Adapter<HomePageViewHolder>{
         
         HomePageData model = myHomePageDataList.get(position);
 
-        Glide.with(mcontext)
+        Glide.with(mContext)
                 .load(model.getImage())
                 .into(holder.imageView);
         holder.mRentAmount.setText(model.getRentAmount());
@@ -48,11 +48,11 @@ public class MyAdapter extends RecyclerView.Adapter<HomePageViewHolder>{
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mcontext, DetailsActivity.class);
+                Intent intent = new Intent(mContext, DetailsActivity.class);
 
                 intent.putExtra("model",model);
 
-                mcontext.startActivity(intent);
+                mContext.startActivity(intent);
             }
         });
     }

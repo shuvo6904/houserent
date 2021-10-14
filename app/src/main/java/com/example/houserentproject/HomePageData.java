@@ -3,18 +3,16 @@ package com.example.houserentproject;
 import java.io.Serializable;
 
 public class HomePageData implements Serializable {
-
+    private String image;
     private String rentAmount;
     private String location;
-    private String image;
     private String buildingName;
     private String floorNumber;
     private String detailsAddress;
     private String valueOfGender;
     private String valueOfRentType;
     private String datePick;
-    private String nameOfUser;
-    private String phnNumOfUser;
+    private String adUserId;
     private String id;
     private String postStatus;
 
@@ -22,26 +20,23 @@ public class HomePageData implements Serializable {
     public HomePageData() {
     }
 
-    public HomePageData(String rentAmount, String location, String image, String buildingName, String floorNumber, String detailsAddress, String valueOfGender, String valueOfRentType, String datePick, String nameOfUser, String phnNumOfUser, String id, String postStatus) {
+    public HomePageData(String image, String rentAmount, String location, String buildingName, String floorNumber, String detailsAddress, String valueOfGender, String valueOfRentType, String datePick, String adUserId, String id, String postStatus) {
+        this.image = image;
         this.rentAmount = rentAmount;
         this.location = location;
-        this.image = image;
         this.buildingName = buildingName;
         this.floorNumber = floorNumber;
         this.detailsAddress = detailsAddress;
         this.valueOfGender = valueOfGender;
         this.valueOfRentType = valueOfRentType;
         this.datePick = datePick;
-        this.nameOfUser = nameOfUser;
-        this.phnNumOfUser = phnNumOfUser;
+        this.adUserId = adUserId;
         this.id = id;
         this.postStatus = postStatus;
     }
 
-
-
-    public String getId() {
-        return id;
+    public String getImage() {
+        return image;
     }
 
     public String getRentAmount() {
@@ -52,11 +47,9 @@ public class HomePageData implements Serializable {
         return location;
     }
 
-    public String getImage() {
-        return image;
+    public String getBuildingName() {
+        return buildingName;
     }
-
-    public String getBuildingName(){return buildingName;}
 
     public String getFloorNumber() {
         return floorNumber;
@@ -66,7 +59,9 @@ public class HomePageData implements Serializable {
         return detailsAddress;
     }
 
-    public String getValueOfGender(){ return valueOfGender;}
+    public String getValueOfGender() {
+        return valueOfGender;
+    }
 
     public String getValueOfRentType() {
         return valueOfRentType;
@@ -76,14 +71,15 @@ public class HomePageData implements Serializable {
         return datePick;
     }
 
-    public String getNameOfUser() {
-        return nameOfUser;
+    public String getAdUserId() {
+        return adUserId;
     }
 
-    public String getPhnNumOfUser() {
-        return phnNumOfUser;
+    public String getId() {
+        return id;
     }
 
-    public String getPostStatus(){return postStatus;}
-
+    public String getPostStatus() {
+        return postStatus;
+    }
 }
