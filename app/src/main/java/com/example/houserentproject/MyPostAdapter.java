@@ -41,6 +41,7 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostsHomePageViewHolde
                 .into(holder.myPostImageView);
         holder.myPostRentAmount.setText(myPostModel.getRentAmount());
         holder.myPostLocation.setText(myPostModel.getLocation());
+        holder.myPostStatus.setText(myPostModel.getPostStatus());
 
         holder.myPostCardView.setOnClickListener(new View.OnClickListener() {
             @Override
