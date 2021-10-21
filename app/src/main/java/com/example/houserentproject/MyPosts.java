@@ -27,7 +27,6 @@ public class MyPosts extends AppCompatActivity {
 
     RecyclerView postRecyclerView;
     List<MyPostPageData> myPostPageDataList;
-    MyPostPageData postHomePageData;
 
     private DatabaseReference postDatabaseReference;
     private ValueEventListener postEventListener;
