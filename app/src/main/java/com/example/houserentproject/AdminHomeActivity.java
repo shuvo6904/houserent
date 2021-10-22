@@ -20,10 +20,10 @@ import java.util.List;
 
 public class AdminHomeActivity extends AppCompatActivity {
 
-    MyPostAdapter adminAdapter;
+    AdminAdapter adminAdapter;
 
     RecyclerView adminRecyclerView;
-    List<MyPostPageData> adminPageDataList;
+    List<HomePageData> adminPageDataList;
     private DatabaseReference adminDatabaseReference;
     private ValueEventListener adminEventListener;
     ProgressDialog adminProgressDialog;
@@ -43,7 +43,7 @@ public class AdminHomeActivity extends AppCompatActivity {
 
         adminPageDataList = new ArrayList<>();
 
-        adminAdapter = new MyPostAdapter(AdminHomeActivity.this, adminPageDataList);
+        adminAdapter = new AdminAdapter(AdminHomeActivity.this, adminPageDataList);
         adminRecyclerView.setAdapter(adminAdapter);
 
         adminDatabaseReference = FirebaseDatabase.getInstance().getReference("Data");
@@ -59,7 +59,7 @@ public class AdminHomeActivity extends AppCompatActivity {
 
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
 
-                        MyPostPageData adminPageData = dataSnapshot1.getValue(MyPostPageData.class);
+                        HomePageData adminPageData = dataSnapshot1.getValue(HomePageData.class);
                         adminPageDataList.add(adminPageData);
 
                     }
