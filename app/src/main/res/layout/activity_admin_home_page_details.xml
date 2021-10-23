@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminHomePageDetails">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layout_bottom_viewId"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="30dp">
+
+            <ImageView
+                android:id="@+id/adminPageIvImage2Id"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_baseline_image_24" />
+
+            <TextView
+                android:id="@+id/adminPageRentedAmountId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="20dp"
+                android:text="Rented Amount : "
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/adminPageHomeLocationId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="20dp"
+                android:text="Location : "
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/adminPageDetailsAddressId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="20dp"
+                android:text="Details Address : "
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/adminPageBuildingNameId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="20dp"
+                android:text="Building Name : "
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/adminPageFloorNumberId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:padding="20dp"
+                android:text="Floor Number : "
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/adminPageGenderValueId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="20dp"
+                android:text="Gender Type : "
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/adminPageRentTypeValueId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="20dp"
+                android:text="Rent Type : "
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/adminPageDatePickerId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="20dp"
+                android:text="Rent Date : "
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/adminPagePostedById"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:text="Posted By "
+                android:textSize="19sp" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/layout_bottom_viewId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/back_profile"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adminPageUserProfileImageViewId"
+            android:layout_width="75dp"
+            android:layout_height="70dp"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:src="@drawable/ic_baseline_account_circle_24"
+            app:civ_border_color="#CFDCCA"
+            app:civ_border_width="1dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:layout_margin="3dp"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <TextView
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginLeft="25dp"
+                android:id="@+id/adminPageUserNameId"
+                android:padding="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Advertiser Name" />
+
+            <TextView
+                android:padding="2dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginLeft="25dp"
+                android:id="@+id/adminPageUserNumberId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Advertiser Phone" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/adminPageCallId"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="25dp"
+                android:background="@drawable/button_rounded"
+                android:src="@drawable/ic_baseline_call_24" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

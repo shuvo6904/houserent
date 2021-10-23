@@ -127,7 +127,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
 
                         HomePageData homePageData = dataSnapshot1.getValue(HomePageData.class);
-                        myHomePageDataList.add(homePageData);
+
+                        if (homePageData.getPostStatus().contains("Approve")){
+                            myHomePageDataList.add(homePageData);
+                        }
+
 
                     }
 
