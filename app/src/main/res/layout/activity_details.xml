@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
     tools:context=".DetailsActivity">
 
+
     <ScrollView
+        android:id="@+id/scrollViewId"
         android:layout_above="@+id/layout_bottom_view"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
@@ -15,18 +17,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <LinearLayout
             android:orientation="vertical"
             android:padding="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/ivImage2Id"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@drawable/ic_baseline_image_24"
-            android:scaleType="centerCrop"
+            <Button
+                android:text="Show Hostel On Google Map"
+                android:layout_gravity="center"
+                android:id="@+id/mapHostelShowId"
+                android:layout_width="wrap_content"
+                android:onClick="showHostelMap"
+                android:layout_height="wrap_content"/>
+
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:id="@+id/ivImage2Id"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/ic_baseline_image_24"
+                android:scaleType="centerCrop"
             />
 
             <CheckBox
@@ -39,16 +52,16 @@
                 android:background="@drawable/favourite_selector"
                 android:button="@android:color/transparent" />
 
-        <TextView
-            android:id="@+id/rentedAmountId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="20dp"
-            android:text="Rented Amount : "
-            android:textSize="19sp"/>
+            <TextView
+                android:id="@+id/rentedAmountId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="20dp"
+                android:text="Rented Amount : "
+                android:textSize="19sp"/>
 
-        <TextView
+            <TextView
             android:id="@+id/homeLocationId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,7 +70,7 @@
             android:text="Location : "
             android:textSize="19sp"/>
 
-        <TextView
+            <TextView
             android:id="@+id/detailsAddressId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,7 +79,7 @@
             android:text="Details Address : "
             android:textSize="19sp"/>
 
-        <TextView
+            <TextView
             android:id="@+id/buildingNameId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,7 +88,7 @@
             android:text="Building Name : "
             android:textSize="19sp"/>
 
-        <TextView
+            <TextView
             android:id="@+id/floorNumberId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,7 +97,7 @@
             android:text="Floor Number : "
             android:textSize="19sp"/>
 
-        <TextView
+            <TextView
             android:id="@+id/genderValueId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,7 +106,7 @@
             android:text="Gender Type : "
             android:textSize="19sp"/>
 
-        <TextView
+            <TextView
             android:id="@+id/rentTypeValueId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,7 +115,7 @@
             android:text="Rent Type : "
             android:textSize="19sp"/>
 
-        <TextView
+            <TextView
             android:id="@+id/datePickerId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

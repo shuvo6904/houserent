@@ -15,12 +15,14 @@ public class HomePageData implements Serializable {
     private String adUserId;
     private String id;
     private String postStatus;
+    private double hostelLat;
+    private double hostelLon;
 
 
     public HomePageData() {
     }
 
-    public HomePageData(String image, String rentAmount, String location, String buildingName, String floorNumber, String detailsAddress, String valueOfGender, String valueOfRentType, String datePick, String adUserId, String id, String postStatus) {
+    public HomePageData(String image, String rentAmount, String location, String buildingName, String floorNumber, String detailsAddress, String valueOfGender, String valueOfRentType, String datePick, String adUserId, String id, String postStatus, double hostelLat, double hostelLon) {
         this.image = image;
         this.rentAmount = rentAmount;
         this.location = location;
@@ -33,6 +35,8 @@ public class HomePageData implements Serializable {
         this.adUserId = adUserId;
         this.id = id;
         this.postStatus = postStatus;
+        this.hostelLat = hostelLat;
+        this.hostelLon = hostelLon;
     }
 
     public String getImage() {
@@ -81,5 +85,13 @@ public class HomePageData implements Serializable {
 
     public String getPostStatus() {
         return postStatus;
+    }
+
+    public double getHostelLat() {
+        return hostelLat;
+    }
+
+    public double getHostelLon() {
+        return hostelLon;
     }
 }

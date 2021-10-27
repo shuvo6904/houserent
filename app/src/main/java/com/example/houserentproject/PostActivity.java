@@ -11,7 +11,11 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -21,6 +25,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -30,6 +35,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -49,21 +55,28 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class PostActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
+    int REQUEST_CODE = 111;
+    ConnectivityManager manager;
+    NetworkInfo networkInfo;
+    Marker mM;
+    GoogleMap mMap;
+    Geocoder geocoder;
+    double selectedLat, selectedLon, hostelLat, hostelLon;
+    List<Address> addresses;
+    String selectedAddress;
+    TextView mapAddress;
 
     String[] locationSpinnerArray;
     Spinner locationSpinner;
@@ -91,7 +104,18 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
         setContentView(R.layout.activity_post);
 
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.googleMapId);
-        client = LocationServices.getFusedLocationProviderClient(this);
+        client = LocationServices.getFusedLocationProviderClient(PostActivity.this);
+
+        if (ActivityCompat.checkSelfPermission(PostActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+        PackageManager.PERMISSION_GRANTED){
+
+            getCurrentLocation();
+
+        }else{
+
+            ActivityCompat.requestPermissions(PostActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+
+        }
 
 
         fAuth = FirebaseAuth.getInstance();
@@ -118,28 +142,7 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
         genderChipGroup = (ChipGroup) findViewById(R.id.genderChipGroupId);
         rentTypeChipGroup = (ChipGroup) findViewById(R.id.rentTypeChipGroupId);
         datePicker = (EditText) findViewById(R.id.selectDateId);
-        //datePickerLayout = (TextInputLayout) findViewById(R.id.selectDateLayoutId);
-
-
-        Dexter.withContext(getApplicationContext())
-                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                .withListener(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                        getMyLocation();
-                    }
-
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-                        permissionToken.continuePermissionRequest();
-                    }
-                }).check();
-
+        mapAddress = (TextView) findViewById(R.id.mapAddressId);
 
         datePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +160,7 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
 
-    public void getMyLocation() {
+    public void getCurrentLocation() {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -176,23 +179,59 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
             @Override
             public void onSuccess(Location location) {
 
-                supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-                    @Override
-                    public void onMapReady(GoogleMap googleMap) {
+                if (location != null){
 
-                        GoogleMap mMap = googleMap;
+                    supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                        @Override
+                        public void onMapReady(GoogleMap googleMap) {
 
-                        double lat = location.getLatitude();
-                        double lng = location.getLongitude();
-                        LatLng latLng = new LatLng(lat, lng);
-                        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Your Hostel Location");
+                            mMap = googleMap;
 
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-                        googleMap.addMarker(markerOptions);
+                           /** LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-                        setMapLongClick(mMap);
-                    }
-                });
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            markerOptions.position(latLng);
+                            markerOptions.title("You are Here");
+                            //markerOptions.draggable(true);
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+                            mM = googleMap.addMarker(markerOptions);
+                            //mM.showInfoWindow(); **/
+
+                           double currentLat = location.getLatitude();
+                           double currentLon = location.getLongitude();
+
+                           getAddress(currentLat, currentLon);
+
+                            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                                @Override
+                                public void onMapClick(LatLng latLng) {
+
+                                    checkConnection();
+
+                                    if (networkInfo.isConnected() && networkInfo.isAvailable()){
+
+                                        selectedLat = latLng.latitude;
+                                        selectedLon = latLng.longitude;
+
+                                        getAddress(selectedLat,selectedLon);
+
+                                    }else {
+                                        Toast.makeText(PostActivity.this, "Please Check Your Internet Connection", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                            });
+
+
+
+                            //getAddress(lat, lng);
+
+                            //setMapLongClick(mMap);
+                        }
+                    });
+                }
+
+
 
             }
         });
@@ -200,14 +239,96 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
-    private void setMapLongClick(final GoogleMap map) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (requestCode == REQUEST_CODE){
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+                getCurrentLocation();
+
+            }
+        }else {
+            Toast.makeText(PostActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void checkConnection(){
+        manager = (ConnectivityManager) getApplicationContext().getSystemService(CONNECTIVITY_SERVICE);
+        networkInfo = manager.getActiveNetworkInfo();
+    }
+
+    /**private void setMapLongClick(final GoogleMap map) {
         map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
 
-                map.addMarker(new MarkerOptions().position(latLng));
+                //if (mM != null){
+                  //  mM.remove();
+                //}
+
+                selectedLat = latLng.latitude;
+                selectedLon = latLng.latitude;
+
+
+                MarkerOptions options = new MarkerOptions();
+                options.position(latLng);
+                options.title("Your Hostel Location");
+                mM = map.addMarker(options);
+
+                getAddress(selectedLat, selectedLon);
+
+                //mM = map.addMarker(new MarkerOptions().position(latLng));
             }
         });
+    }**/
+
+    private void getAddress(double mLat, double mLon){
+
+        hostelLat = mLat;
+        hostelLon = mLon;
+
+        geocoder = new Geocoder(PostActivity.this, Locale.getDefault());
+
+        if (mLat != 0){
+            try {
+                addresses = geocoder.getFromLocation(mLat, mLon, 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (addresses != null){
+
+                String mAddress = addresses.get(0).getAddressLine(0);
+
+                //String city = addresses.get(0).getLocality();
+                //String knownName = addresses.get(0).getFeatureName();
+
+                selectedAddress = mAddress;
+
+                if (mAddress != null){
+
+                    if (mM != null){
+                        mM.remove();
+                    }
+
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    LatLng latLng = new LatLng(mLat, mLon);
+                    markerOptions.position(latLng).title(selectedAddress);
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+                    mM = mMap.addMarker(markerOptions);
+                    mapAddress.setText(selectedAddress);
+                }else {
+                    Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
+                }
+
+            }else {
+                Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            Toast.makeText(this, "LatLng Null", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -320,7 +441,9 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
                 datePicker.getText().toString(),
                 userId,
                 myCurrentDateTime,
-                postStatus
+                postStatus,
+                hostelLat,
+                hostelLon
 
 
         );

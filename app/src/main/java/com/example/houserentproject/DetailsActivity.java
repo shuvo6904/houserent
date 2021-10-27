@@ -3,8 +3,11 @@ package com.example.houserentproject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +19,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -35,10 +47,10 @@ import java.util.Objects;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    TextView rentedAmount , homeLocation, buildingName, floorNumber, detailsAddress , genderValue, rentTypeValue, rentDate, advertiserUsrName, advertiserPhnNum;
+    TextView rentedAmount, homeLocation, buildingName, floorNumber, detailsAddress, genderValue, rentTypeValue, rentDate, advertiserUsrName, advertiserPhnNum;
     ImageView homeImage, userImage;
     ImageButton callButton;
-    private StorageReference adStorageReference , adProfileStorageRef;
+    private StorageReference adStorageReference, adProfileStorageRef;
     private FirebaseAuth mAuth;
     private FirebaseFirestore fStore;
     private String currentUserId;
@@ -46,10 +58,14 @@ public class DetailsActivity extends AppCompatActivity {
     private CheckBox checkBoxFavourite;
     private Session session;
     String advertiserUserId, userName, userPhnNumber;
+
+    double latitude, longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
         getUserId();
         session = new Session(this);
         rentedAmount = findViewById(R.id.rentedAmountId);
@@ -69,9 +85,9 @@ public class DetailsActivity extends AppCompatActivity {
 
         model = (HomePageData) getIntent().getSerializableExtra("model");
 
-        if (model != null){
+        if (model != null) {
             rentedAmount.setText("Rented Amount : " + model.getRentAmount());
-            homeLocation.setText("Location : "+ model.getLocation());
+            homeLocation.setText("Location : " + model.getLocation());
             buildingName.setText("Building Name : " + model.getBuildingName());
             floorNumber.setText("Floor Number : " + model.getFloorNumber());
             detailsAddress.setText("Details Address : " + model.getDetailsAddress());
@@ -79,13 +95,15 @@ public class DetailsActivity extends AppCompatActivity {
             rentTypeValue.setText("Rent Type : " + model.getValueOfRentType());
             rentDate.setText("Rent Date : " + model.getDatePick());
             advertiserUserId = model.getAdUserId().trim();
+            latitude = model.getHostelLat();
+            longitude = model.getHostelLon();
             Glide.with(this)
                     .load(model.getImage())
                     .into(homeImage);
         }
 
         adStorageReference = FirebaseStorage.getInstance().getReference();
-        adProfileStorageRef = adStorageReference.child("Users/"+advertiserUserId+"/profile.jpg");
+        adProfileStorageRef = adStorageReference.child("Users/" + advertiserUserId + "/profile.jpg");
 
         adProfileStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -95,7 +113,7 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
         DocumentReference documentReference = fStore.collection("users").document(advertiserUserId);
-        documentReference.addSnapshotListener(this,new EventListener<DocumentSnapshot>() {
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 userName = value.getString("fName");
@@ -122,6 +140,8 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     CompoundButton.OnCheckedChangeListener favListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
@@ -171,5 +191,15 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
 
+    }
+
+
+
+    public void showHostelMap(View view) {
+
+        Intent intent = new Intent(DetailsActivity.this, MapsActivity.class);
+        intent.putExtra("lat",latitude);
+        intent.putExtra("lon", longitude);
+        startActivity(intent);
     }
 }
