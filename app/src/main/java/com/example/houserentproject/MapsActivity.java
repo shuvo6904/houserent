@@ -3,6 +3,8 @@ package com.example.houserentproject;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,14 +23,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE); // Hide the title
+        getSupportActionBar().hide(); // Hide title bar
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_maps);
 
-        latOfHostel = getIntent().getDoubleExtra("lat", 0.0);
-        lonOfHostel = getIntent().getDoubleExtra("lon", 0.0);
+        latOfHostel = getIntent().getDoubleExtra("lat", 22.793528665164757);
+        lonOfHostel = getIntent().getDoubleExtra("lon", 91.10448741362408);
 
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.googleMapDetailsId);
         mapFragment.getMapAsync(MapsActivity.this);
+
     }
 
     @Override

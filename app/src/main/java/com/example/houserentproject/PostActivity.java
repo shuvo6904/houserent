@@ -3,8 +3,8 @@ package com.example.houserentproject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.DialogFragment;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
@@ -18,13 +18,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,17 +42,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -63,11 +61,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class PostActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class PostActivity extends AppCompatActivity {
 
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
-    int REQUEST_CODE = 111;
+    int REQUEST_CODE = 111, count = 0;
     ConnectivityManager manager;
     NetworkInfo networkInfo;
     Marker mM;
@@ -76,18 +74,21 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
     double selectedLat, selectedLon, hostelLat, hostelLon;
     List<Address> addresses;
     String selectedAddress;
-    TextView mapAddress;
+    TextView mapAddress, inDeTV;
+    AppBarLayout mapAppBar;
 
-    String[] locationSpinnerArray;
-    Spinner locationSpinner;
+    String[] locationDropDownArray, selectedMonthDropDownArray, desireRentDropdownArray;
+    TextInputLayout locationTextInputLayout, monthTextInputLayout, desireRentTextInputLayout;
+    AutoCompleteTextView dropDownText, selectedMonthText, desireRentText;
+
+    ImageButton incrementBtn, decrementBtn;
 
     ImageView homeImage;
     Uri uri;
-    EditText txtRentedAmount, txtBuildingName, txtFloorNumber, txtDetailsAddress, datePicker;
-    //TextInputLayout datePickerLayout;
+    EditText txtRentedAmount, txtBuildingName, txtFloorNumber, txtDetailsAddress;
 
-    ChipGroup genderChipGroup, rentTypeChipGroup;
-    Chip genderChip, rentTypeChip;
+    ChipGroup genderChipGroup;
+    Chip genderChip;
 
     String imageUrl;
 
@@ -101,6 +102,11 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE); // Hide the title
+        getSupportActionBar().hide(); // Hide title bar
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_post);
 
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.googleMapId);
@@ -125,11 +131,31 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
         rootRef = FirebaseDatabase.getInstance().getReference();
 
 
-        locationSpinnerArray = getResources().getStringArray(R.array.location_spinner);
-        locationSpinner = (Spinner) findViewById(R.id.locationSpinnerId);
+        locationDropDownArray = getResources().getStringArray(R.array.location_spinner);
+        locationTextInputLayout = (TextInputLayout) findViewById(R.id.locationTextInputLayoutId);
+        dropDownText = (AutoCompleteTextView) findViewById(R.id.dropDownTextId);
 
-        ArrayAdapter<String> locaSpiArrayAdapter = new ArrayAdapter<>(PostActivity.this, R.layout.sample_location_spinner_view, R.id.sampleViewLocationSpinnerId, locationSpinnerArray);
-        locationSpinner.setAdapter(locaSpiArrayAdapter);
+        selectedMonthDropDownArray = getResources().getStringArray(R.array.month_spinner);
+        monthTextInputLayout = (TextInputLayout) findViewById(R.id.selectMonthId);
+        selectedMonthText = (AutoCompleteTextView) findViewById(R.id.selectMonthTextId);
+
+        desireRentDropdownArray = getResources().getStringArray(R.array.desireRent_spinner);
+        desireRentTextInputLayout = (TextInputLayout) findViewById(R.id.desireRentTextInputLayoutId);
+        desireRentText = (AutoCompleteTextView) findViewById(R.id.desireRentTextId);
+
+        incrementBtn = (ImageButton) findViewById(R.id.incrementId);
+        decrementBtn = (ImageButton) findViewById(R.id.decrementId);
+        inDeTV = (TextView) findViewById(R.id.inDeTVId);
+
+
+        ArrayAdapter<String> locationArrayAdapter = new ArrayAdapter<>(PostActivity.this, R.layout.sample_spinner_view, locationDropDownArray);
+        dropDownText.setAdapter(locationArrayAdapter);
+
+        ArrayAdapter<String> monthArrayAdapter = new ArrayAdapter<>(PostActivity.this, R.layout.sample_spinner_view, selectedMonthDropDownArray);
+        selectedMonthText.setAdapter(monthArrayAdapter);
+
+        ArrayAdapter<String> desireRentArrayAdapter = new ArrayAdapter<>(PostActivity.this, R.layout.sample_spinner_view, desireRentDropdownArray);
+        desireRentText.setAdapter(desireRentArrayAdapter);
 
 
         homeImage = (ImageView) findViewById(R.id.postHomeImageId);
@@ -140,23 +166,38 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
         txtFloorNumber = (EditText) findViewById(R.id.floorNumberId);
         txtDetailsAddress = (EditText) findViewById(R.id.detailsAddressId);
         genderChipGroup = (ChipGroup) findViewById(R.id.genderChipGroupId);
-        rentTypeChipGroup = (ChipGroup) findViewById(R.id.rentTypeChipGroupId);
-        datePicker = (EditText) findViewById(R.id.selectDateId);
         mapAddress = (TextView) findViewById(R.id.mapAddressId);
 
-        datePicker.setOnClickListener(new View.OnClickListener() {
+        mapAppBar = (AppBarLayout) findViewById(R.id.appBarMapLayoutId);
+
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mapAppBar.getLayoutParams();
+        AppBarLayout.Behavior behavior = new AppBarLayout.Behavior();
+        behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
+            @Override
+            public boolean canDrag(AppBarLayout appBarLayout) {
+                return false;
+            }
+        });
+        params.setBehavior(behavior);
+
+        incrementBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                DialogFragment datePicker = new DatePickerFragment();
-                datePicker.show(getSupportFragmentManager(), "date picker");
-
+                count ++;
+                inDeTV.setText(""+count);
             }
         });
 
+        decrementBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (count<=0) count = 0;
+                else
+                    count--;
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+                inDeTV.setText(""+count);
+            }
+        });
     }
 
 
@@ -187,16 +228,6 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
 
                             mMap = googleMap;
 
-                           /** LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-                            MarkerOptions markerOptions = new MarkerOptions();
-                            markerOptions.position(latLng);
-                            markerOptions.title("You are Here");
-                            //markerOptions.draggable(true);
-                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
-                            mM = googleMap.addMarker(markerOptions);
-                            //mM.showInfoWindow(); **/
-
                            double currentLat = location.getLatitude();
                            double currentLon = location.getLongitude();
 
@@ -222,11 +253,6 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
                                 }
                             });
 
-
-
-                            //getAddress(lat, lng);
-
-                            //setMapLongClick(mMap);
                         }
                     });
                 }
@@ -259,30 +285,6 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
         networkInfo = manager.getActiveNetworkInfo();
     }
 
-    /**private void setMapLongClick(final GoogleMap map) {
-        map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(LatLng latLng) {
-
-                //if (mM != null){
-                  //  mM.remove();
-                //}
-
-                selectedLat = latLng.latitude;
-                selectedLon = latLng.latitude;
-
-
-                MarkerOptions options = new MarkerOptions();
-                options.position(latLng);
-                options.title("Your Hostel Location");
-                mM = map.addMarker(options);
-
-                getAddress(selectedLat, selectedLon);
-
-                //mM = map.addMarker(new MarkerOptions().position(latLng));
-            }
-        });
-    }**/
 
     private void getAddress(double mLat, double mLon){
 
@@ -318,7 +320,7 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
                     markerOptions.position(latLng).title(selectedAddress);
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
                     mM = mMap.addMarker(markerOptions);
-                    mapAddress.setText(selectedAddress);
+                    mapAddress.setText("Address from Map: " + selectedAddress);
                 }else {
                     Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
                 }
@@ -331,22 +333,6 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
         }
     }
 
-
-
-
-
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-        datePicker.setText(currentDateString);
-    }
 
     public void btnSelectImage(View view) {
 
@@ -411,17 +397,13 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
         int genderSelectedId = genderChipGroup.getCheckedChipId();
         genderChip = (Chip) findViewById(genderSelectedId);
 
-        int rentTypeSelectedId = rentTypeChipGroup.getCheckedChipId();
-        rentTypeChip = (Chip) findViewById(rentTypeSelectedId);
-
-
-
             uploadImage();
-
 
     }
 
     public void submitData(){
+
+        String selectedRent = inDeTV.getText().toString() + " " + desireRentText.getText().toString();
 
         String myCurrentDateTime = DateFormat.getDateTimeInstance()
                 .format(Calendar.getInstance().getTime());
@@ -432,13 +414,13 @@ public class PostActivity extends AppCompatActivity implements DatePickerDialog.
         HomePageData homePageData = new HomePageData(
                 imageUrl,
                 txtRentedAmount.getText().toString(),
-                locationSpinner.getSelectedItem().toString(),
+                dropDownText.getText().toString(),
                 txtBuildingName.getText().toString(),
                 txtFloorNumber.getText().toString(),
                 txtDetailsAddress.getText().toString(),
                 genderChip.getText().toString(),
-                rentTypeChip.getText().toString(),
-                datePicker.getText().toString(),
+                selectedRent,
+                selectedMonthText.getText().toString(),
                 userId,
                 myCurrentDateTime,
                 postStatus,

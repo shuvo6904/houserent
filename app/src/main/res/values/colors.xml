@@ -13,4 +13,7 @@
     <color name="colorAccent">#FF6C02</color>
     <color name="background">#EEEDEF</color>
     <color name="red">#C53126</color>
+
+    <color name="startColor">#C9D6FF</color>
+    <color name="endColor">#E2E2E2</color>
 </resources>
