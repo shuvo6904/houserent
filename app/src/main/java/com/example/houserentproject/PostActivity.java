@@ -231,6 +231,10 @@ public class PostActivity extends AppCompatActivity {
                            double currentLat = location.getLatitude();
                            double currentLon = location.getLongitude();
 
+                           LatLng currentLatLon = new LatLng(currentLat, currentLon);
+
+                           mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLon, 14));
+
                            getAddress(currentLat, currentLon);
 
                             mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -318,7 +322,7 @@ public class PostActivity extends AppCompatActivity {
                     MarkerOptions markerOptions = new MarkerOptions();
                     LatLng latLng = new LatLng(mLat, mLon);
                     markerOptions.position(latLng).title(selectedAddress);
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+                    // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
                     mM = mMap.addMarker(markerOptions);
                     mapAddress.setText("Address from Map: " + selectedAddress);
                 }else {

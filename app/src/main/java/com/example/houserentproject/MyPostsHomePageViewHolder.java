@@ -1,6 +1,7 @@
 package com.example.houserentproject;
 
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ public class MyPostsHomePageViewHolder extends RecyclerView.ViewHolder {
     ImageView myPostImageView;
     TextView myPostRentAmount, myPostLocation, myPostStatus;
     CardView myPostCardView;
+    ImageButton deleteImageBtn;
 
     public MyPostsHomePageViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -22,6 +24,7 @@ public class MyPostsHomePageViewHolder extends RecyclerView.ViewHolder {
         myPostLocation = itemView.findViewById(R.id.MyPostTvLocationId);
         myPostStatus = itemView.findViewById(R.id.tvPostStatusId);
         myPostCardView = itemView.findViewById(R.id.myPostCardViewId);
+        deleteImageBtn = itemView.findViewById(R.id.deleteImageBtnId);
 
     }
 }

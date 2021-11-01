@@ -17,12 +17,13 @@ public class MyPostPageData implements Serializable {
     private String phnNumOfUser;
     private String id;
     private String postStatus;
+    private String adUserId;
 
 
     public MyPostPageData() {
     }
 
-    public MyPostPageData(String rentAmount, String location, String image, String buildingName, String floorNumber, String detailsAddress, String valueOfGender, String valueOfRentType, String datePick, String nameOfUser, String phnNumOfUser, String id, String postStatus) {
+    public MyPostPageData(String rentAmount, String location, String image, String buildingName, String floorNumber, String detailsAddress, String valueOfGender, String valueOfRentType, String datePick, String nameOfUser, String phnNumOfUser, String id, String postStatus, String adUserId) {
         this.rentAmount = rentAmount;
         this.location = location;
         this.image = image;
@@ -36,6 +37,7 @@ public class MyPostPageData implements Serializable {
         this.phnNumOfUser = phnNumOfUser;
         this.id = id;
         this.postStatus = postStatus;
+        this.adUserId = adUserId;
     }
 
 
@@ -86,5 +88,8 @@ public class MyPostPageData implements Serializable {
 
     public String getPostStatus(){return postStatus;}
 
+    public String getAdUserId() {
+        return adUserId;
+    }
 }
 
