@@ -8,12 +8,19 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="colorPrimary">#2D383F</color>
-    <color name="colorPrimaryDark">#2D383F</color>
-    <color name="colorAccent">#FF6C02</color>
+    <color name="editTextBorderColor">#2D383F</color>
+
+    <!--<color name="colorPrimaryDark">#2D383F</color>
+    <color name="colorAccent">#FF6C02</color> -->
+
+
     <color name="background">#EEEDEF</color>
     <color name="red">#C53126</color>
 
     <color name="startColor">#C9D6FF</color>
     <color name="endColor">#E2E2E2</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="statusBarColor">#2B3987</color>
 </resources>

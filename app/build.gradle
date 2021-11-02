@@ -9,7 +9,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.houserentproject"
-        minSdkVersion 23
+        minSdkVersion 19
+        multiDexEnabled true
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
