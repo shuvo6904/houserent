@@ -43,6 +43,8 @@ public class Profile extends AppCompatActivity {
     private Button profileEmailVerifyButton, editProfileButton;
     private BottomSheetDialog sheetDialog;
     private FirebaseAuth fAuth;
+    DocumentReference documentReference;
+    FirebaseUser user;
     private ImageView profileImage, frontImageView, backImageView;
     private StorageReference storageReference, profileStorageRef, frontVeriStorageReference, backVeriStorageReference;
     private FirebaseFirestore firebaseFirestore;
@@ -53,7 +55,6 @@ public class Profile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
         profileEmailVerifyButton = (Button) findViewById(R.id.verifiedEmailButtonId);
         editProfileButton = (Button) findViewById(R.id.editProfileButtonId);
         profileImage = (ImageView) findViewById(R.id.editableProfileImageViewId);
@@ -69,9 +70,11 @@ public class Profile extends AppCompatActivity {
 
 
         fAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = fAuth.getCurrentUser();
+        user = fAuth.getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = firebaseFirestore.collection("users").document(user.getUid());
+        documentReference = firebaseFirestore.collection("users").document(user.getUid());
+
+        isProfileCompleted();
 
         if (user != null)
             user.reload();
@@ -84,6 +87,22 @@ public class Profile extends AppCompatActivity {
         }else{
             checkIsEmailVerified.setText("Email Verified");
             Log.d("profile_", "onCreate: email is verified");
+
+            Map<String, Object> edited = new HashMap<>();
+            edited.put("emailVerification", "Verified");
+            documentReference.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                    Toast.makeText(Profile.this, e.getMessage(), Toast.LENGTH_LONG).show();
+
+                }
+            });
         }
 
 
@@ -227,6 +246,42 @@ public class Profile extends AppCompatActivity {
 
     }
 
+    public void isProfileCompleted() {
+
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (value.getString("profileImg").isEmpty() || value.getString("backImageIdentity").isEmpty() ||
+                    value.getString("frontImageIdentity").isEmpty() || value.getString("emailVerification").isEmpty()){
+                    Toast.makeText(Profile.this, "Profile Not Completed", Toast.LENGTH_SHORT).show();
+                }
+
+                else {
+
+                    Map<String, Object> edited = new HashMap<>();
+                    edited.put("isProfileCompleted", "Yes");
+                    documentReference.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+
+                            //Toast.makeText(Profile.this, "Profile Completed", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            Toast.makeText(Profile.this, e.getMessage(), Toast.LENGTH_LONG).show();
+
+                        }
+                    });
+
+                }
+            }
+        });
+
+    }
+
     public void fabChangeProPic(View view) {
 
         ImagePicker.with(Profile.this)
@@ -318,6 +373,25 @@ public class Profile extends AppCompatActivity {
 
             }
         });
+
+
+        String profileImageUri = imageUri.toString();
+
+        Map<String, Object> edited = new HashMap<>();
+        edited.put("profileImg", profileImageUri);
+        documentReference.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(Profile.this, e.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
+        });
     }
 
     private void uploadFrontImageToFirebase(Uri imageUri) {
@@ -342,6 +416,24 @@ public class Profile extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
 
                 Toast.makeText(Profile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        String frontImageUri = imageUri.toString();
+
+        Map<String, Object> edited = new HashMap<>();
+        edited.put("frontImageIdentity", frontImageUri);
+        documentReference.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(Profile.this, e.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });
@@ -370,6 +462,24 @@ public class Profile extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
 
                 Toast.makeText(Profile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        String backImageUri = imageUri.toString();
+
+        Map<String, Object> edited = new HashMap<>();
+        edited.put("backImageIdentity", backImageUri);
+        documentReference.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(Profile.this, e.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });

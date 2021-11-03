@@ -20,10 +20,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     View hView;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
+    DocumentReference documentReference;
 
     String userId;
 
@@ -90,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fStore = FirebaseFirestore.getInstance();
 
         userId = fAuth.getCurrentUser().getUid();
-        DocumentReference documentReference = fStore.collection("users").document(userId);
+        documentReference = fStore.collection("users").document(userId);
         documentReference.addSnapshotListener(this,new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -212,7 +215,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void faButton(View view) {
-        startActivity(new Intent(MainActivity.this, PostActivity.class));
+
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                if (value.getString("isProfileCompleted").isEmpty()){
+
+                    Toast.makeText(MainActivity.this, "Please Complete Your Profile. Then Try to Post Advertisement", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+                    startActivity(new Intent(MainActivity.this, PostActivity.class));
+                }
+            }
+        });
     }
 
     @Override

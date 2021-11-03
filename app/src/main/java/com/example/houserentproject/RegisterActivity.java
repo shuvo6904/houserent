@@ -117,6 +117,11 @@ public class RegisterActivity extends AppCompatActivity {
                 user.put("fName",strFullName);
                 user.put("email",strEmail);
                 user.put("PhnNumber",strPhnNum);
+                user.put("profileImg", "");
+                user.put("frontImageIdentity", "");
+                user.put("backImageIdentity", "");
+                user.put("emailVerification", "");
+                user.put("isProfileCompleted", "");
                 documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
