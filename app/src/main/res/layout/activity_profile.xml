@@ -1,37 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Profile"
-    android:orientation="vertical">
+    android:fillViewport="true"
+    tools:context=".Profile">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#5DAFF1"
         android:orientation="vertical">
 
-        <RelativeLayout
+       <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="#E6B923"
-            android:padding="20dp">
+            android:layout_height="228dp">
 
-            <!--<ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/editableProfileImageViewId"
-                android:layout_width="144dp"
-                android:layout_height="148dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_baseline_account_circle_24" /> -->
-
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/editableProfileImageViewId"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/splashicon"
+                android:layout_width="160dp"
+                android:layout_height="127dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/profile"
                 app:civ_border_color="#FFFFFF"
                 app:civ_border_width="2dp" />
 
@@ -42,9 +34,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignRight="@+id/editableProfileImageViewId"
                 android:layout_alignBottom="@id/editableProfileImageViewId"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="17dp"
                 android:onClick="fabChangeProPic"
-                android:src="@drawable/ic_baseline_add_photo_alternate_24"
+                android:src="@drawable/ic_baseline_photo_camera_24"
                 app:fabSize="mini" />
 
 
@@ -52,189 +44,224 @@
                 android:id="@+id/profileNameId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/editableProfileImageViewId"
-                android:includeFontPadding="false"
-                android:text="Not Set"
+                android:layout_below="@+id/editableProfileImageViewId"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/bentham"
+                android:text="Your Name"
                 android:textColor="@color/black"
-                android:textSize="25dp"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
+
             <TextView
-                android:id="@+id/profileEmailId"
+                android:id="@+id/checkIsEmailVerifiedId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/profileNameId"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/editableProfileImageViewId"
-                android:includeFontPadding="false"
-                android:text="Not Set"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/bentham"
+                android:text="Email Unverified"
                 android:textColor="@color/black"
-                android:textSize="16dp" />
+                android:textSize="17dp"
+                android:textStyle="bold" />
 
-            <RelativeLayout
+            <Button
+                android:id="@+id/verifiedEmailButtonId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/editableProfileImageViewId"
-                android:layout_marginLeft="20dp">
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@+id/checkIsEmailVerifiedId"
+                android:text="Verify"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/profile_background">
+
+            <RelativeLayout
+                android:id="@+id/firstRelativeId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp">
 
                 <TextView
-                    android:id="@+id/checkIsEmailVerifiedId"
+                    android:id="@+id/personalInfoTvId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="12dp"
-                    android:includeFontPadding="false"
-                    android:text="Email Unverified"
+                    android:padding="5dp"
+                    android:text="Personal Information"
                     android:textColor="@color/black"
-                    android:textSize="20dp"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/editProfileTextViewId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="10dp"
+                    android:padding="5dp"
+                    android:text="Edit"
+                    android:textColor="#E62667"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/verifiedEmailButtonId"
+                <LinearLayout
+                    android:id="@+id/nameLayoutId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/personalInfoTvId"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/ic_baseline_person_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="Name"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/editableProfileNameId"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_toRightOf="@+id/checkIsEmailVerifiedId"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/nameLayoutId"
+                    android:layout_marginLeft="56dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Your Name"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+                <LinearLayout
+                    android:id="@+id/emailLayoutId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/editableProfileNameId"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/ic_baseline_email_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="Account Email"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/editableProfileEmailId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/emailLayoutId"
+                    android:layout_marginLeft="56dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Your Email"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/contactLayoutId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/editableProfileEmailId"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/ic_baseline_call_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="Contact Number"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/editableProfilePhnNumId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/contactLayoutId"
+                    android:layout_marginLeft="56dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Your Contact Number"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_below="@+id/firstRelativeId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="20dp"
+                android:background="#ECF3F8">
+
+                <TextView
+                    android:id="@+id/verificationTvId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:padding="5dp"
-                    android:text="Verify"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
+                    android:text="User Verification"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/uploadIdentityTextViewId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="10dp"
+                    android:onClick="uploadIdentityPhoto"
+                    android:padding="5dp"
+                    android:text="Upload Photo Identity"
+                    android:textColor="#E62667"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
 
             </RelativeLayout>
 
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#E6B923"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/editProfileButtonId"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="40dp"
-                android:padding="5dp"
-                android:text="Edit"
-                android:textStyle="bold" />
-
-
-            <TextView
-                android:id="@+id/editableProfileNameId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="90dp"
-                android:layout_marginTop="50dp"
-                android:text="Name : Not Set"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/editableProfileEmailId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="90dp"
-                android:layout_marginTop="50dp"
-                android:text="Email : Not Set"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/editableProfilePhnNumId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="90dp"
-                android:layout_marginTop="50dp"
-                android:text="Phone Number : Not Set"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:background="#E6B923"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="5dp"
-                android:layout_gravity="center_horizontal"
-                android:text="  Choose Front Side of Your\nNID Card or Student ID Card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="italic"
-                android:textColor="@color/black"/>
-
-            <ImageView
-                android:layout_marginBottom="5dp"
-                android:id="@+id/frontImageId"
-                android:src="@drawable/ic_baseline_image_24"
-                android:layout_width="match_parent"
-                android:scaleType="fitXY"
-                android:layout_height="200dp"/>
-
-            <Button
-                android:padding="10dp"
-                android:layout_margin="15dp"
-                android:textStyle="bold"
-                android:onClick="uploadFrontImageBtn"
-                android:text="Upload Image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:background="#E6B923"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="5dp"
-                android:layout_gravity="center_horizontal"
-                android:text="  Choose Back Side of Your\nNID Card or Student ID Card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="italic"
-                android:textColor="@color/black"/>
-
-            <ImageView
-                android:layout_marginBottom="5dp"
-                android:id="@+id/backImageId"
-                android:src="@drawable/ic_baseline_image_24"
-                android:layout_width="match_parent"
-                android:scaleType="fitXY"
-                android:layout_height="200dp"/>
-
-            <Button
-                android:padding="10dp"
-                android:layout_margin="15dp"
-                android:textStyle="bold"
-                android:onClick="uploadBackImageBtn"
-                android:text="Upload Image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-
-        </LinearLayout>
 
     </LinearLayout>
 
-  </ScrollView>
+</ScrollView>

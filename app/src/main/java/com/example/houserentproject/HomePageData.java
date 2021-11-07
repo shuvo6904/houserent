@@ -17,12 +17,18 @@ public class HomePageData implements Serializable {
     private String postStatus;
     private double hostelLat;
     private double hostelLon;
+    private String electricityBill;
+    private String gasBill;
+    private String wifiBill;
+    private String othersBill;
+    private String generator;
+    private String elevator;
 
 
     public HomePageData() {
     }
 
-    public HomePageData(String image, String rentAmount, String location, String buildingName, String floorNumber, String detailsAddress, String valueOfGender, String valueOfRentType, String datePick, String adUserId, String id, String postStatus, double hostelLat, double hostelLon) {
+    public HomePageData(String image, String rentAmount, String location, String buildingName, String floorNumber, String detailsAddress, String valueOfGender, String valueOfRentType, String datePick, String adUserId, String id, String postStatus, double hostelLat, double hostelLon, String electricityBill, String gasBill, String wifiBill, String othersBill, String generator, String elevator) {
         this.image = image;
         this.rentAmount = rentAmount;
         this.location = location;
@@ -37,6 +43,13 @@ public class HomePageData implements Serializable {
         this.postStatus = postStatus;
         this.hostelLat = hostelLat;
         this.hostelLon = hostelLon;
+        this.electricityBill = electricityBill;
+        this.gasBill = gasBill;
+        this.wifiBill = wifiBill;
+        this.othersBill = othersBill;
+        this.generator = generator;
+        this.elevator = elevator;
+
     }
 
     public String getImage() {
@@ -93,5 +106,29 @@ public class HomePageData implements Serializable {
 
     public double getHostelLon() {
         return hostelLon;
+    }
+
+    public String getElectricityBill() {
+        return electricityBill;
+    }
+
+    public String getGasBill() {
+        return gasBill;
+    }
+
+    public String getWifiBill() {
+        return wifiBill;
+    }
+
+    public String getOthersBill() {
+        return othersBill;
+    }
+
+    public String getGenerator() {
+        return generator;
+    }
+
+    public String getElevator() {
+        return elevator;
     }
 }

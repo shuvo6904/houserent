@@ -2,19 +2,26 @@ package com.example.houserentproject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +30,7 @@ import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -40,33 +48,46 @@ import java.util.Map;
 
 public class Profile extends AppCompatActivity {
 
-    private Button profileEmailVerifyButton, editProfileButton;
-    private BottomSheetDialog sheetDialog;
+    private Button profileEmailVerifyButton;
+    private BottomSheetDialog sheetDialog, photoIdentitySheetDialog;
     private FirebaseAuth fAuth;
     DocumentReference documentReference;
     FirebaseUser user;
-    private ImageView profileImage, frontImageView, backImageView;
-    private StorageReference storageReference, profileStorageRef, frontVeriStorageReference, backVeriStorageReference;
+    private ImageView profileImage, photoIdentityIV;;
+    private StorageReference storageReference, profileStorageRef, frontVeriStorageReference;
     private FirebaseFirestore firebaseFirestore;
-    private TextView profileName, profileEmail, proEditableName, proEditablePhnNum, proEditableEmail, checkIsEmailVerified;
+    private TextView profileName, proEditableName, proEditablePhnNum, proEditableEmail, checkIsEmailVerified, editProfileTextView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        this.setTitle("User Profile");
+
+        ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5DAFF1")));
+        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setDisplayShowHomeEnabled(true);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(R.color.profileStatusBarColor));
+        }
+
         profileEmailVerifyButton = (Button) findViewById(R.id.verifiedEmailButtonId);
-        editProfileButton = (Button) findViewById(R.id.editProfileButtonId);
+        editProfileTextView = (TextView) findViewById(R.id.editProfileTextViewId);
         profileImage = (ImageView) findViewById(R.id.editableProfileImageViewId);
         profileName = (TextView) findViewById(R.id.profileNameId);
-        profileEmail = (TextView) findViewById(R.id.profileEmailId);
         proEditableName = (TextView) findViewById(R.id.editableProfileNameId);
         proEditablePhnNum = (TextView) findViewById(R.id.editableProfilePhnNumId);
         proEditableEmail = (TextView) findViewById(R.id.editableProfileEmailId);
         checkIsEmailVerified = (TextView) findViewById(R.id.checkIsEmailVerifiedId);
 
-        frontImageView = (ImageView) findViewById(R.id.frontImageId);
-        backImageView = (ImageView) findViewById(R.id.backImageId);
+        //frontImageView = (ImageView) findViewById(R.id.imageViewPhotoIdentity);
+        //backImageView = (ImageView) findViewById(R.id.backImageId);
 
 
         fAuth = FirebaseAuth.getInstance();
@@ -112,7 +133,6 @@ public class Profile extends AppCompatActivity {
 
 
                 profileName.setText(value.getString("fName"));
-                profileEmail.setText(value.getString("email"));
                 proEditableName.setText(value.getString("fName"));
                 proEditablePhnNum.setText(value.getString("PhnNumber"));
                 proEditableEmail.setText(value.getString("email"));
@@ -123,7 +143,8 @@ public class Profile extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         profileStorageRef = storageReference.child("Users/"+user.getUid()+"/profile.jpg");
         frontVeriStorageReference = storageReference.child("Users/"+user.getUid()+"/frontImage.jpg");
-        backVeriStorageReference = storageReference.child("Users/"+user.getUid()+"/backImage.jpg");
+        //frontVeriStorageReference = storageReference.child("Users/"+user.getUid()+"/frontImage.jpg");
+        //backVeriStorageReference = storageReference.child("Users/"+user.getUid()+"/backImage.jpg");
 
         profileStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -132,19 +153,14 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        frontVeriStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(frontImageView);
-            }
-        });
 
-        backVeriStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+        /**backVeriStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).into(backImageView);
             }
-        });
+        });**/
 
         profileEmailVerifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +188,7 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        editProfileButton.setOnClickListener(new View.OnClickListener() {
+        editProfileTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -246,6 +262,44 @@ public class Profile extends AppCompatActivity {
 
     }
 
+    public void uploadIdentityPhoto(View view) {
+
+        photoIdentitySheetDialog = new BottomSheetDialog(Profile.this,R.style.BottomSheetStyle);
+
+        View photoIdentityView = LayoutInflater.from(Profile.this).inflate(R.layout.upload_photo_identity,
+                (RelativeLayout)findViewById(R.id.identityLayoutId));
+
+        FloatingActionButton changePhotoIdentity;
+
+        photoIdentityIV = (ImageView) photoIdentityView.findViewById(R.id.imageViewPhotoIdentity);
+        changePhotoIdentity = (FloatingActionButton) photoIdentityView.findViewById(R.id.changePhotoIdentityImageId);
+
+        changePhotoIdentity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ImagePicker.with(Profile.this)
+                        .crop()	    			//Crop image(Optional), Check Customization for more option
+                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .start(2000);
+
+            }
+        });
+
+        frontVeriStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(photoIdentityIV);
+            }
+        });
+
+        photoIdentitySheetDialog.setContentView(photoIdentityView);
+        photoIdentitySheetDialog.show();
+
+
+    }
+
     public void isProfileCompleted() {
 
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -293,7 +347,7 @@ public class Profile extends AppCompatActivity {
 
     }
 
-    public void uploadFrontImageBtn(View view) {
+    /**public void uploadFrontImageBtn(View view) {
 
         ImagePicker.with(Profile.this)
                 .cameraOnly()	//User can only capture image using Camera
@@ -301,9 +355,9 @@ public class Profile extends AppCompatActivity {
                 .compress(1024)			//Final image size will be less than 1 MB(Optional)
                 .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
                 .start(2000);
-    }
+    }**/
 
-    public void uploadBackImageBtn(View view) {
+    /**public void uploadBackImageBtn(View view) {
 
         ImagePicker.with(Profile.this)
                 .cameraOnly()	//User can only capture image using Camera
@@ -311,7 +365,7 @@ public class Profile extends AppCompatActivity {
                 .compress(1024)			//Final image size will be less than 1 MB(Optional)
                 .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
                 .start(3000);
-    }
+    }**/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -335,14 +389,14 @@ public class Profile extends AppCompatActivity {
             }
         }
 
-        if (requestCode == 3000){
+        /**if (requestCode == 3000){
             if (resultCode == Activity.RESULT_OK){
                 Uri imageUri = data.getData();
                 //backImageView.setImageURI(imageUri);
 
                 uploadBackImageToFirebase(imageUri);
             }
-        }
+        }**/
 
     }
 
@@ -405,7 +459,7 @@ public class Profile extends AppCompatActivity {
                     @Override
                     public void onSuccess(Uri uri) {
 
-                        Picasso.get().load(uri).into(frontImageView);
+                        Picasso.get().load(uri).into(photoIdentityIV);
 
                     }
                 });
@@ -439,7 +493,9 @@ public class Profile extends AppCompatActivity {
         });
     }
 
-    private void uploadBackImageToFirebase(Uri imageUri) {
+
+
+    /**private void uploadBackImageToFirebase(Uri imageUri) {
 
         // upload front image to firebase storage
         final StorageReference fileRef = storageReference.child("Users/"+fAuth.getCurrentUser().getUid()+"/backImage.jpg");
@@ -484,7 +540,7 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-    }
+    }**/
 
 
 

@@ -28,6 +28,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,10 +90,14 @@ public class PostActivity extends AppCompatActivity {
 
     ImageView homeImage;
     Uri uri;
-    EditText txtRentedAmount, txtBuildingName, txtFloorNumber, txtDetailsAddress;
+    EditText txtRentedAmount, txtBuildingName, txtFloorNumber, txtDetailsAddress, txtElectricityBill, txtGasBill, txtWifiBill, txtOthersBill;
 
     ChipGroup genderChipGroup;
     Chip genderChip;
+
+    RadioGroup generatorRadioGroup, elevatorRadioGroup;
+
+    RadioButton generator, elevator;
 
     String imageUrl;
 
@@ -108,7 +114,7 @@ public class PostActivity extends AppCompatActivity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE); // Hide the title
         getSupportActionBar().hide(); // Hide title bar
-       // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_post);
 
@@ -116,11 +122,11 @@ public class PostActivity extends AppCompatActivity {
         client = LocationServices.getFusedLocationProviderClient(PostActivity.this);
 
         if (ActivityCompat.checkSelfPermission(PostActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) ==
-        PackageManager.PERMISSION_GRANTED){
+                PackageManager.PERMISSION_GRANTED) {
 
             getCurrentLocation();
 
-        }else{
+        } else {
 
             ActivityCompat.requestPermissions(PostActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
 
@@ -160,15 +166,19 @@ public class PostActivity extends AppCompatActivity {
         ArrayAdapter<String> desireRentArrayAdapter = new ArrayAdapter<>(PostActivity.this, R.layout.sample_spinner_view, desireRentDropdownArray);
         desireRentText.setAdapter(desireRentArrayAdapter);
 
-
         homeImage = (ImageView) findViewById(R.id.postHomeImageId);
 
         txtRentedAmount = (EditText) findViewById(R.id.rentedAmountId);
-
         txtBuildingName = (EditText) findViewById(R.id.buildingNameId);
         txtFloorNumber = (EditText) findViewById(R.id.floorNumberId);
         txtDetailsAddress = (EditText) findViewById(R.id.detailsAddressId);
         genderChipGroup = (ChipGroup) findViewById(R.id.genderChipGroupId);
+        generatorRadioGroup = (RadioGroup) findViewById(R.id.generatorRadioGroupId);
+        elevatorRadioGroup = (RadioGroup) findViewById(R.id.elevatorRadioGroupId);
+        txtElectricityBill = (EditText) findViewById(R.id.electricityBillId);
+        txtGasBill = (EditText) findViewById(R.id.gasBillId);
+        txtWifiBill = (EditText) findViewById(R.id.wifiBillId);
+        txtOthersBill = (EditText) findViewById(R.id.othersBillId);
         mapAddress = (TextView) findViewById(R.id.mapAddressId);
 
         mapAppBar = (AppBarLayout) findViewById(R.id.appBarMapLayoutId);
@@ -192,19 +202,19 @@ public class PostActivity extends AppCompatActivity {
         incrementBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count ++;
-                inDeTV.setText(""+count);
+                count++;
+                inDeTV.setText("" + count);
             }
         });
 
         decrementBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (count<=0) count = 0;
+                if (count <= 0) count = 0;
                 else
                     count--;
 
-                inDeTV.setText(""+count);
+                inDeTV.setText("" + count);
             }
         });
 
@@ -238,7 +248,7 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Location location) {
 
-                if (location != null){
+                if (location != null) {
 
                     supportMapFragment.getMapAsync(new OnMapReadyCallback() {
                         @Override
@@ -246,14 +256,14 @@ public class PostActivity extends AppCompatActivity {
 
                             mMap = googleMap;
 
-                           double currentLat = location.getLatitude();
-                           double currentLon = location.getLongitude();
+                            double currentLat = location.getLatitude();
+                            double currentLon = location.getLongitude();
 
-                           LatLng currentLatLon = new LatLng(currentLat, currentLon);
+                            LatLng currentLatLon = new LatLng(currentLat, currentLon);
 
-                           mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLon, 14));
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLon, 14));
 
-                           getAddress(currentLat, currentLon);
+                            getAddress(currentLat, currentLon);
 
                             mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                                 @Override
@@ -261,14 +271,14 @@ public class PostActivity extends AppCompatActivity {
 
                                     checkConnection();
 
-                                    if (networkInfo.isConnected() && networkInfo.isAvailable()){
+                                    if (networkInfo.isConnected() && networkInfo.isAvailable()) {
 
                                         selectedLat = latLng.latitude;
                                         selectedLon = latLng.longitude;
 
-                                        getAddress(selectedLat,selectedLon);
+                                        getAddress(selectedLat, selectedLon);
 
-                                    }else {
+                                    } else {
                                         Toast.makeText(PostActivity.this, "Please Check Your Internet Connection", Toast.LENGTH_SHORT).show();
                                     }
 
@@ -280,7 +290,6 @@ public class PostActivity extends AppCompatActivity {
                 }
 
 
-
             }
         });
 
@@ -290,39 +299,39 @@ public class PostActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        if (requestCode == REQUEST_CODE){
+        if (requestCode == REQUEST_CODE) {
 
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 getCurrentLocation();
 
             }
-        }else {
+        } else {
             Toast.makeText(PostActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void checkConnection(){
+    private void checkConnection() {
         manager = (ConnectivityManager) getApplicationContext().getSystemService(CONNECTIVITY_SERVICE);
         networkInfo = manager.getActiveNetworkInfo();
     }
 
 
-    private void getAddress(double mLat, double mLon){
+    private void getAddress(double mLat, double mLon) {
 
         hostelLat = mLat;
         hostelLon = mLon;
 
         geocoder = new Geocoder(PostActivity.this, Locale.getDefault());
 
-        if (mLat != 0){
+        if (mLat != 0) {
             try {
                 addresses = geocoder.getFromLocation(mLat, mLon, 1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            if (addresses != null){
+            if (addresses != null) {
 
                 String mAddress = addresses.get(0).getAddressLine(0);
 
@@ -331,9 +340,9 @@ public class PostActivity extends AppCompatActivity {
 
                 selectedAddress = mAddress;
 
-                if (mAddress != null){
+                if (mAddress != null) {
 
-                    if (mM != null){
+                    if (mM != null) {
                         mM.remove();
                     }
 
@@ -342,15 +351,15 @@ public class PostActivity extends AppCompatActivity {
                     markerOptions.position(latLng).title(selectedAddress);
                     // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
                     mM = mMap.addMarker(markerOptions);
-                    mapAddress.setText("Address from Map: " + selectedAddress);
-                }else {
+                    mapAddress.setText(selectedAddress);
+                } else {
                     Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
                 }
 
-            }else {
+            } else {
                 Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
             }
-        }else {
+        } else {
             Toast.makeText(this, "LatLng Null", Toast.LENGTH_SHORT).show();
         }
     }
@@ -368,18 +377,16 @@ public class PostActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK){
+        if (resultCode == RESULT_OK) {
 
             uri = data.getData();
             homeImage.setImageURI(uri);
 
-        }
-
-        else Toast.makeText(this, "You Haven't Picked Any Image", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, "You Haven't Picked Any Image", Toast.LENGTH_SHORT).show();
 
     }
 
-    public void uploadImage(){
+    public void uploadImage() {
         StorageReference storageReference = FirebaseStorage.getInstance()
                 .getReference().child("HomeImage").child(uri.getLastPathSegment());
 
@@ -392,7 +399,7 @@ public class PostActivity extends AppCompatActivity {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                 Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                while (!uriTask.isComplete());
+                while (!uriTask.isComplete()) ;
                 Uri urlImage = uriTask.getResult();
                 imageUrl = urlImage.toString();
 
@@ -410,7 +417,7 @@ public class PostActivity extends AppCompatActivity {
 
     public void btnSubmitId(View view) {
 
-        if (txtRentedAmount.getText().toString().isEmpty()){
+        if (txtRentedAmount.getText().toString().isEmpty()) {
             txtRentedAmount.setError("Required Field");
             txtRentedAmount.requestFocus();
             return;
@@ -419,11 +426,17 @@ public class PostActivity extends AppCompatActivity {
         int genderSelectedId = genderChipGroup.getCheckedChipId();
         genderChip = (Chip) findViewById(genderSelectedId);
 
-            uploadImage();
+        int generatorSelectedId = generatorRadioGroup.getCheckedRadioButtonId();
+        generator = (RadioButton) findViewById(generatorSelectedId);
+
+        int elevatorSelectedId = elevatorRadioGroup.getCheckedRadioButtonId();
+        elevator = (RadioButton) findViewById(elevatorSelectedId);
+
+        uploadImage();
 
     }
 
-    public void submitData(){
+    public void submitData() {
 
         String selectedRent = inDeTV.getText().toString() + " " + desireRentText.getText().toString();
 
@@ -447,7 +460,14 @@ public class PostActivity extends AppCompatActivity {
                 myCurrentDateTime,
                 postStatus,
                 hostelLat,
-                hostelLon
+                hostelLon,
+                txtElectricityBill.getText().toString(),
+                txtGasBill.getText().toString(),
+                txtWifiBill.getText().toString(),
+                txtOthersBill.getText().toString(),
+                generator.getText().toString(),
+                elevator.getText().toString()
+
 
 
         );
@@ -456,22 +476,22 @@ public class PostActivity extends AppCompatActivity {
         rootRef.child("Data")
                 .child(userId)
                 .child(myCurrentDateTime).setValue(homePageData).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
 
-                        if (task.isSuccessful()){
-                            Toast.makeText(PostActivity.this, "Data Uploaded",Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
+                if (task.isSuccessful()) {
+                    Toast.makeText(PostActivity.this, "Data Uploaded", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
+            }
 
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
 
-                        Toast.makeText(PostActivity.this, e.getMessage().toString(),Toast.LENGTH_SHORT).show();
-                    }
-                });
+                Toast.makeText(PostActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
