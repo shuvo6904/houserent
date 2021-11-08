@@ -2,15 +2,24 @@ package com.example.houserentproject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -47,7 +56,7 @@ import java.util.Objects;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    TextView rentedAmount, homeLocation, buildingName, floorNumber, detailsAddress, genderValue, rentTypeValue, rentDate, advertiserUsrName, advertiserPhnNum;
+    TextView rentedAmount, homeLocation, buildingName, floorNumber, detailsAddress, genderValue, rentTypeValue, rentDate, advertiserUsrName, advertiserPhnNum, postDescription, electricityBill, gasBill, wifiBill, othersBill;
     ImageView homeImage, userImage;
     ImageButton callButton;
     private StorageReference adStorageReference, adProfileStorageRef;
@@ -66,6 +75,20 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        this.setTitle("Hostel Details");
+
+        ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5DAFF1")));
+        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setDisplayShowHomeEnabled(true);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(R.color.statusBarColor));
+        }
+
         getUserId();
         session = new Session(this);
         rentedAmount = findViewById(R.id.rentedAmountId);
@@ -82,21 +105,31 @@ public class DetailsActivity extends AppCompatActivity {
         advertiserPhnNum = (TextView) findViewById(R.id.userNumberId);
         callButton = (ImageButton) findViewById(R.id.callId);
         fStore = FirebaseFirestore.getInstance();
+        postDescription = (TextView) findViewById(R.id.postDescriptionId);
+        electricityBill = (TextView) findViewById(R.id.electricityId);
+        gasBill = (TextView) findViewById(R.id.gasId);
+        wifiBill = (TextView) findViewById(R.id.wifiId);
+        othersBill = (TextView) findViewById(R.id.othersId);
 
         model = (HomePageData) getIntent().getSerializableExtra("model");
 
         if (model != null) {
-            rentedAmount.setText("Rented Amount : " + model.getRentAmount());
-            homeLocation.setText("Location : " + model.getLocation());
-            buildingName.setText("Building Name : " + model.getBuildingName());
-            floorNumber.setText("Floor Number : " + model.getFloorNumber());
+            postDescription.setText(model.getValueOfRentType() + " will be rented in the " + model.getLocation() + " from " + model.getDatePick() + ".");
+            rentedAmount.setText(" " + model.getRentAmount() + " Taka");
+            homeLocation.setText(" " + model.getLocation());
+            buildingName.setText(" " + model.getBuildingName());
+            floorNumber.setText(" " + model.getFloorNumber() + " Floor");
             detailsAddress.setText("Details Address : " + model.getDetailsAddress());
-            genderValue.setText("Gender Type : " + model.getValueOfGender());
+            genderValue.setText(" " + model.getValueOfGender());
             rentTypeValue.setText("Rent Type : " + model.getValueOfRentType());
             rentDate.setText("Rent Date : " + model.getDatePick());
             advertiserUserId = model.getAdUserId().trim();
             latitude = model.getHostelLat();
             longitude = model.getHostelLon();
+            electricityBill.setText(" " + model.getElectricityBill() + " Taka");
+            gasBill.setText(" " + model.getGasBill() + " Taka");
+            wifiBill.setText(" " + model.getWifiBill() + " Taka");
+            othersBill.setText(" " + model.getOthersBill() + " Taka");
             Glide.with(this)
                     .load(model.getImage())
                     .into(homeImage);
@@ -122,9 +155,6 @@ public class DetailsActivity extends AppCompatActivity {
                 advertiserPhnNum.setText(userPhnNumber);
             }
         });
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         checkBoxFavourite = findViewById(R.id.checkboxFavourite);
         checkBoxFavourite.setOnCheckedChangeListener(favListener);
@@ -193,13 +223,43 @@ public class DetailsActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+
+            case R.id.mapLocaionMenuId:
+
+                Intent intent = new Intent(DetailsActivity.this, MapsActivity.class);
+                intent.putExtra("lat",latitude);
+                intent.putExtra("lon", longitude);
+                startActivity(intent);
+                return true;
+
+            default:
+
+                return super.onOptionsItemSelected(item);
+
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater locationInflater = getMenuInflater();
+        locationInflater.inflate(R.menu.map_menu,menu);
+
+        return true;
+    }
 
 
-    public void showHostelMap(View view) {
+
+    /**public void showHostelMap(View view) {
 
         Intent intent = new Intent(DetailsActivity.this, MapsActivity.class);
         intent.putExtra("lat",latitude);
         intent.putExtra("lon", longitude);
         startActivity(intent);
-    }
+    }**/
 }

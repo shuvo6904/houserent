@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,128 +9,275 @@
 
     <ScrollView
         android:id="@+id/scrollViewId"
-        android:layout_above="@+id/layout_bottom_view"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layout_bottom_view"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true">
 
 
         <LinearLayout
-            android:orientation="vertical"
-            android:padding="30dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
 
-            <Button
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:cardCornerRadius="5dp">
+
+                <ImageView
+                    android:id="@+id/ivImage2Id"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_baseline_image_24" />
+
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- <Button
                 android:text="Show Hostel On Google Map"
                 android:layout_gravity="center"
                 android:id="@+id/mapHostelShowId"
                 android:layout_width="wrap_content"
                 android:onClick="showHostelMap"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"/> -->
 
-
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:id="@+id/ivImage2Id"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@drawable/ic_baseline_image_24"
-                android:scaleType="centerCrop"
-            />
 
             <CheckBox
                 android:id="@+id/checkboxFavourite"
-                android:layout_width="35dp"
-                android:layout_height="29dp"
+                android:layout_width="25dp"
+                android:layout_height="21dp"
                 android:layout_gravity="end"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/favourite_selector"
                 android:button="@android:color/transparent" />
 
             <TextView
-                android:id="@+id/rentedAmountId"
+                android:id="@+id/postDescriptionId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Post Description"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="5dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/homeLocationId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_baseline_location_black"
+                        android:text="Location : "
+                        android:textColor="#675E5E"
+                        android:textSize="18sp" />
+
+                    <LinearLayout
+                        android:layout_marginBottom="20dp"
+                        android:id="@+id/firstLinearId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/homeLocationId"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/buildingNameId"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableStart="@drawable/ic_baseline_home_black"
+                            android:text="Building Name : "
+                            android:textColor="#675E5E"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/floorNumberId"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableStart="@drawable/stairswithhandrail"
+                            android:text="Floor Number : "
+                            android:textColor="#675E5E"
+                            android:textSize="18sp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginBottom="20dp"
+                        android:id="@+id/secondLinearId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/firstLinearId"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/rentedAmountId"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableStart="@drawable/takacurrencysymbol"
+                            android:text="Rented Amount : "
+                            android:textColor="#675E5E"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/genderValueId"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableStart="@drawable/gendericon"
+                            android:text="Gender Type : "
+                            android:textColor="#675E5E"
+                            android:textSize="18sp" />
+
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_marginBottom="20dp"
+                        android:id="@+id/thirdLinearId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/electricityId"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableStart="@drawable/ic_baseline_electrical_services_24"
+                            android:text=" Electricity Bill: "
+                            android:textColor="#675E5E"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/gasId"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableStart="@drawable/stairswithhandrail"
+                            android:text=" Gas Bill: "
+                            android:textColor="#675E5E"
+                            android:textSize="18sp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginBottom="20dp"
+                        android:layout_below="@+id/thirdLinearId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/wifiId"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableStart="@drawable/wifiicon"
+                            android:text=" Wifi Bill: "
+                            android:textColor="#675E5E"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/othersId"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableStart="@drawable/othersbillicon"
+                            android:text=" Others Bill: "
+                            android:textColor="#675E5E"
+                            android:textSize="18sp" />
+
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+
+            <TextView
+                android:id="@+id/detailsAddressId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:padding="20dp"
-                android:text="Rented Amount : "
-                android:textSize="19sp"/>
+                android:text="Details Address : "
+                android:textSize="19sp" />
+
 
             <TextView
-            android:id="@+id/homeLocationId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="20dp"
-            android:text="Location : "
-            android:textSize="19sp"/>
+                android:id="@+id/rentTypeValueId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="20dp"
+                android:text="Rent Type : "
+                android:textSize="19sp" />
 
             <TextView
-            android:id="@+id/detailsAddressId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="20dp"
-            android:text="Details Address : "
-            android:textSize="19sp"/>
-
-            <TextView
-            android:id="@+id/buildingNameId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="20dp"
-            android:text="Building Name : "
-            android:textSize="19sp"/>
-
-            <TextView
-            android:id="@+id/floorNumberId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:padding="20dp"
-            android:text="Floor Number : "
-            android:textSize="19sp"/>
-
-            <TextView
-            android:id="@+id/genderValueId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="20dp"
-            android:text="Gender Type : "
-            android:textSize="19sp"/>
-
-            <TextView
-            android:id="@+id/rentTypeValueId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="20dp"
-            android:text="Rent Type : "
-            android:textSize="19sp"/>
-
-            <TextView
-            android:id="@+id/datePickerId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="20dp"
-            android:text="Rent Date : "
-            android:textSize="19sp"/>
+                android:id="@+id/datePickerId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="20dp"
+                android:text="Rent Date : "
+                android:textSize="19sp" />
 
             <TextView
                 android:id="@+id/postedById"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Posted By "
                 android:padding="20dp"
-                android:textSize="19sp"/>
-
+                android:text="Posted By "
+                android:textSize="19sp" />
 
 
         </LinearLayout>
@@ -155,10 +301,10 @@
             android:id="@+id/userProfileImageViewId"
             android:layout_width="75dp"
             android:layout_height="70dp"
-            android:padding="5dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="3dp"
             android:layout_marginBottom="3dp"
+            android:padding="5dp"
             android:src="@drawable/ic_baseline_account_circle_24"
             app:civ_border_color="#CFDCCA"
             app:civ_border_width="1dp" />
@@ -167,30 +313,30 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="5dp"
             android:layout_margin="3dp"
             android:layout_weight="3"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="5dp">
 
             <TextView
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_marginLeft="25dp"
                 android:id="@+id/userNameId"
-                android:padding="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Advertiser Name" />
+                android:layout_marginLeft="25dp"
+                android:padding="2dp"
+                android:text="Advertiser Name"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
 
             <TextView
-                android:padding="2dp"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_marginLeft="25dp"
                 android:id="@+id/userNumberId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Advertiser Phone" />
+                android:layout_marginLeft="25dp"
+                android:padding="2dp"
+                android:text="Advertiser Phone"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
@@ -198,8 +344,8 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/callId"

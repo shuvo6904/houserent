@@ -22,7 +22,6 @@
 
     <color name="transparent">#00000000</color>
 
-    <color name="statusBarColor">#2B3987</color>
 
-    <color name="profileStatusBarColor">#5DAFF1</color>
+    <color name="statusBarColor">#5DAFF1</color>
 </resources>
