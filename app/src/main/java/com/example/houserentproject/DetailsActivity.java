@@ -56,7 +56,7 @@ import java.util.Objects;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    TextView rentedAmount, homeLocation, buildingName, floorNumber, detailsAddress, genderValue, rentTypeValue, rentDate, advertiserUsrName, advertiserPhnNum, postDescription, electricityBill, gasBill, wifiBill, othersBill;
+    TextView rentedAmount, homeLocation, buildingName, floorNumber, detailsAboutHostel, genderValue, rentTypeValue, rentDate, advertiserUsrName, advertiserPhnNum, postDescription, electricityBill, gasBill, wifiBill, othersBill;
     ImageView homeImage, userImage;
     ImageButton callButton;
     private StorageReference adStorageReference, adProfileStorageRef;
@@ -96,7 +96,7 @@ public class DetailsActivity extends AppCompatActivity {
         homeImage = (ImageView) findViewById(R.id.ivImage2Id);
         buildingName = (TextView) findViewById(R.id.buildingNameId);
         floorNumber = (TextView) findViewById(R.id.floorNumberId);
-        detailsAddress = (TextView) findViewById(R.id.detailsAddressId);
+        detailsAboutHostel = (TextView) findViewById(R.id.detailsAboutHostelId);
         genderValue = (TextView) findViewById(R.id.genderValueId);
         rentTypeValue = (TextView) findViewById(R.id.rentTypeValueId);
         rentDate = (TextView) findViewById(R.id.datePickerId);
@@ -119,17 +119,17 @@ public class DetailsActivity extends AppCompatActivity {
             homeLocation.setText(" " + model.getLocation());
             buildingName.setText(" " + model.getBuildingName());
             floorNumber.setText(" " + model.getFloorNumber() + " Floor");
-            detailsAddress.setText("Details Address : " + model.getDetailsAddress());
+            detailsAboutHostel.setText(model.getDetailsAboutHostel());
             genderValue.setText(" " + model.getValueOfGender());
-            rentTypeValue.setText("Rent Type : " + model.getValueOfRentType());
-            rentDate.setText("Rent Date : " + model.getDatePick());
+            rentTypeValue.setText(" " + model.getValueOfRentType());
+            rentDate.setText(" " + model.getDatePick());
             advertiserUserId = model.getAdUserId().trim();
             latitude = model.getHostelLat();
             longitude = model.getHostelLon();
-            electricityBill.setText(" " + model.getElectricityBill() + " Taka");
-            gasBill.setText(" " + model.getGasBill() + " Taka");
-            wifiBill.setText(" " + model.getWifiBill() + " Taka");
-            othersBill.setText(" " + model.getOthersBill() + " Taka");
+            electricityBill.setText(" " + model.getElectricityBill() + " Taka (Electricity)");
+            gasBill.setText(" " + model.getGasBill() + " Taka (Gas)");
+            wifiBill.setText(" " + model.getWifiBill() + " Taka (Wifi)");
+            othersBill.setText(" " + model.getOthersBill() + " Taka (Others)");
             Glide.with(this)
                     .load(model.getImage())
                     .into(homeImage);

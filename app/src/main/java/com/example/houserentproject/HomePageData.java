@@ -8,7 +8,7 @@ public class HomePageData implements Serializable {
     private String location;
     private String buildingName;
     private String floorNumber;
-    private String detailsAddress;
+    private String detailsAboutHostel;
     private String valueOfGender;
     private String valueOfRentType;
     private String datePick;
@@ -28,13 +28,13 @@ public class HomePageData implements Serializable {
     public HomePageData() {
     }
 
-    public HomePageData(String image, String rentAmount, String location, String buildingName, String floorNumber, String detailsAddress, String valueOfGender, String valueOfRentType, String datePick, String adUserId, String id, String postStatus, double hostelLat, double hostelLon, String electricityBill, String gasBill, String wifiBill, String othersBill, String generator, String elevator) {
+    public HomePageData(String image, String rentAmount, String location, String buildingName, String floorNumber, String detailsAboutHostel, String valueOfGender, String valueOfRentType, String datePick, String adUserId, String id, String postStatus, double hostelLat, double hostelLon, String electricityBill, String gasBill, String wifiBill, String othersBill, String generator, String elevator) {
         this.image = image;
         this.rentAmount = rentAmount;
         this.location = location;
         this.buildingName = buildingName;
         this.floorNumber = floorNumber;
-        this.detailsAddress = detailsAddress;
+        this.detailsAboutHostel = detailsAboutHostel;
         this.valueOfGender = valueOfGender;
         this.valueOfRentType = valueOfRentType;
         this.datePick = datePick;
@@ -72,8 +72,8 @@ public class HomePageData implements Serializable {
         return floorNumber;
     }
 
-    public String getDetailsAddress() {
-        return detailsAddress;
+    public String getDetailsAboutHostel() {
+        return detailsAboutHostel;
     }
 
     public String getValueOfGender() {

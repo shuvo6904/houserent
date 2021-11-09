@@ -62,7 +62,7 @@ public class AdminHomePageDetails extends AppCompatActivity {
             adminPageHomeLocation.setText("Location : "+ adminModelPost.getLocation());
             adminPageBuildingName.setText("Building Name : " + adminModelPost.getBuildingName());
             adminPageFloorNumber.setText("Floor Number : " + adminModelPost.getFloorNumber());
-            adminPageDetailsAddress.setText("Details Address : " + adminModelPost.getDetailsAddress());
+            adminPageDetailsAddress.setText("Details Address : " + adminModelPost.getDetailsAboutHostel());
             adminPageGenderValue.setText("Gender Type : " + adminModelPost.getValueOfGender());
             adminPageRentTypeValue.setText("Rent Type : " + adminModelPost.getValueOfRentType());
             adminPageRentDate.setText("Rent Date : " + adminModelPost.getDatePick());

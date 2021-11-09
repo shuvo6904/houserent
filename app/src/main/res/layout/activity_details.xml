@@ -62,11 +62,21 @@
                 android:id="@+id/postDescriptionId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:text="Post Description"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/homeLocationId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_baseline_location_black"
+                android:text="Address : "
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
 
             <androidx.cardview.widget.CardView
@@ -80,31 +90,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:layout_marginTop="20dp"
-                        android:id="@+id/homeLocationId"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_baseline_location_black"
-                        android:text="Location : "
-                        android:textColor="#675E5E"
-                        android:textSize="18sp" />
-
                     <LinearLayout
+                        android:layout_marginLeft="20dp"
                         android:layout_marginBottom="20dp"
                         android:id="@+id/firstLinearId"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/homeLocationId"
                         android:layout_marginTop="20dp"
                         android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:weightSum="2.5">
 
                         <TextView
                             android:id="@+id/buildingNameId"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.4"
                             android:drawableStart="@drawable/ic_baseline_home_black"
                             android:text="Building Name : "
                             android:textColor="#675E5E"
@@ -114,9 +114,9 @@
                             android:id="@+id/floorNumberId"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.1"
                             android:drawableStart="@drawable/stairswithhandrail"
-                            android:text="Floor Number : "
+                            android:text=" Floor Number : "
                             android:textColor="#675E5E"
                             android:textSize="18sp" />
 
@@ -124,19 +124,20 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:layout_marginLeft="20dp"
                         android:layout_marginBottom="20dp"
                         android:id="@+id/secondLinearId"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/firstLinearId"
                         android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:weightSum="2.5">
 
                         <TextView
                             android:id="@+id/rentedAmountId"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.4"
                             android:drawableStart="@drawable/takacurrencysymbol"
                             android:text="Rented Amount : "
                             android:textColor="#675E5E"
@@ -146,12 +147,43 @@
                             android:id="@+id/genderValueId"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.1"
                             android:drawableStart="@drawable/gendericon"
                             android:text="Gender Type : "
                             android:textColor="#675E5E"
                             android:textSize="18sp" />
 
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/secondLinearId"
+                        android:orientation="horizontal"
+                        android:weightSum="2.5">
+
+                        <TextView
+                            android:id="@+id/datePickerId"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.4"
+                            android:drawableStart="@drawable/ic_baseline_date_range_24"
+                            android:text="Date: "
+                            android:textColor="#675E5E"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/rentTypeValueId"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.1"
+                            android:drawableStart="@drawable/renttype"
+                            android:text=" Rent Type: "
+                            android:textColor="#675E5E"
+                            android:textSize="18sp" />
 
                     </LinearLayout>
 
@@ -173,19 +205,19 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
-                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="20dp"
                         android:id="@+id/thirdLinearId"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:weightSum="2.5">
 
                         <TextView
                             android:id="@+id/electricityId"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.4"
                             android:drawableStart="@drawable/ic_baseline_electrical_services_24"
                             android:text=" Electricity Bill: "
                             android:textColor="#675E5E"
@@ -195,8 +227,8 @@
                             android:id="@+id/gasId"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:drawableStart="@drawable/stairswithhandrail"
+                            android:layout_weight="1.1"
+                            android:drawableStart="@drawable/gaspaymenticon"
                             android:text=" Gas Bill: "
                             android:textColor="#675E5E"
                             android:textSize="18sp" />
@@ -205,31 +237,32 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:layout_marginLeft="20dp"
                         android:layout_marginBottom="20dp"
                         android:layout_below="@+id/thirdLinearId"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:orientation="horizontal"
-                        android:weightSum="2">
-
-                        <TextView
-                            android:id="@+id/wifiId"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:drawableStart="@drawable/wifiicon"
-                            android:text=" Wifi Bill: "
-                            android:textColor="#675E5E"
-                            android:textSize="18sp" />
+                        android:weightSum="2.5">
 
                         <TextView
                             android:id="@+id/othersId"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.4"
                             android:drawableStart="@drawable/othersbillicon"
                             android:text=" Others Bill: "
+                            android:textColor="#675E5E"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/wifiId"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.1"
+                            android:drawableStart="@drawable/wifiicon"
+                            android:text=" Wifi Bill: "
                             android:textColor="#675E5E"
                             android:textSize="18sp" />
 
@@ -242,42 +275,26 @@
             </androidx.cardview.widget.CardView>
 
 
+            <TextView
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="Additional Information About Hostel &amp; Advertisement Post: "
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
 
             <TextView
-                android:id="@+id/detailsAddressId"
+                android:id="@+id/detailsAboutHostelId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
                 android:layout_marginTop="10dp"
-                android:padding="20dp"
-                android:text="Details Address : "
-                android:textSize="19sp" />
-
-
-            <TextView
-                android:id="@+id/rentTypeValueId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:padding="20dp"
-                android:text="Rent Type : "
-                android:textSize="19sp" />
-
-            <TextView
-                android:id="@+id/datePickerId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:padding="20dp"
-                android:text="Rent Date : "
-                android:textSize="19sp" />
-
-            <TextView
-                android:id="@+id/postedById"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:text="Posted By "
-                android:textSize="19sp" />
+                android:layout_marginBottom="30dp"
+                android:text="Details about Hostel: "
+                android:textColor="#675E5E"
+                android:textSize="18sp" />
 
 
         </LinearLayout>

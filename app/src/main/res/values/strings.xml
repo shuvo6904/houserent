@@ -9,33 +9,33 @@
 
     <string-array name="location_spinner">
 
-        <item>Maijdee Bazar</item>
-        <item>Housing</item>
-        <item>Powro Bazar</item>
-        <item>Bissonath</item>
-        <item>Sonapur</item>
-        <item>Varsity Area</item>
-        <item>Dotto Bari</item>
-        <item>Rashid Kaloni</item>
-        <item>Sultan Kaloni</item>
+        <item>Maijdee Bazar, Noakhali Sadar, Noakhali</item>
+        <item>Housing, Maijdee, Noakhali</item>
+        <item>Powro Bazar, Maijdee, Noakhali</item>
+        <item>Bissonath, Maijdee, Noakhali</item>
+        <item>Sonapur, Noakhali Sadar, Noakhali</item>
+        <item>Varsity Area, Noakhali Sadar, Noakhali</item>
+        <item>Dotto Bari, Maijdee, Noakhali</item>
+        <item>Rashid Kaloni, Maijdee, Noakhali</item>
+        <item>Sultan Kaloni, Maijdee, Noakhali</item>
         <item>Others</item>
 
     </string-array>
 
     <string-array name="month_spinner">
 
-        <item>January</item>
-        <item>February</item>
-        <item>March</item>
-        <item>April</item>
-        <item>May</item>
-        <item>June</item>
-        <item>July</item>
-        <item>August</item>
-        <item>September</item>
-        <item>October</item>
-        <item>November</item>
-        <item>December</item>
+        <item>January, 2022</item>
+        <item>February, 2022</item>
+        <item>March, 2022</item>
+        <item>April, 2022</item>
+        <item>May, 2022</item>
+        <item>June, 2022</item>
+        <item>July, 2022</item>
+        <item>August, 2022</item>
+        <item>September, 2022</item>
+        <item>October, 2022</item>
+        <item>November, 2022</item>
+        <item>December, 2021</item>
 
     </string-array>
 
