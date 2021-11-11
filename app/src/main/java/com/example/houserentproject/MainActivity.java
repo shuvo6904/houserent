@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -199,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
             case R.id.menuLogoutId:
                 FirebaseAuth.getInstance().signOut();
+                removeSharedPreference();
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 finish();
                 return true;
@@ -212,6 +214,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
+    }
+
+    private void removeSharedPreference() {
+        SharedPreferences sharedPreferences = getSharedPreferences("adminSharedPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("isAdmin");
+        editor.clear();
+        editor.apply();
     }
 
     public void faButton(View view) {

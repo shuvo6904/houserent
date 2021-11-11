@@ -1,11 +1,13 @@
 package com.example.houserentproject;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +25,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -34,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText username, password;
     FirebaseAuth firebaseAuth;
+    FirebaseFirestore fStore;
+    String userId;
     AlertDialog.Builder reset_alert;
     LayoutInflater inflater;
     ProgressBar loginProgressBar;
@@ -52,6 +59,9 @@ public class LoginActivity extends AppCompatActivity {
         inflater = this.getLayoutInflater();
 
         loginProgressBar = findViewById(R.id.loginProgressBarId);
+
+        fStore = FirebaseFirestore.getInstance();
+
 
     }
 
@@ -85,23 +95,46 @@ public class LoginActivity extends AppCompatActivity {
         loginProgressBar.setVisibility(View.VISIBLE);
 
 
-        if (username.getText().toString().equals("admin.hostelrent@info.com") && password.getText().toString().equals("120331")){
+        /**if (username.getText().toString().equals("admin.hostelrent@info.com") && password.getText().toString().equals("120331")){
             startActivity(new Intent(LoginActivity.this, AdminHomeActivity.class));
             finish();
             return;
-        }
+        }**/
+
 
         firebaseAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
 
-                Toast.makeText(LoginActivity.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
-                loginProgressBar.setVisibility(View.GONE);
+                userId = firebaseAuth.getCurrentUser().getUid();
+                DocumentReference documentReference = fStore.collection("users").document(userId);
+                documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()){
+                            String isAdminValue = documentSnapshot.getString("isAdmin");
 
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                finish();
+                            if (isAdminValue.isEmpty()){
+                                saveAdminSharedPreferences(false);
+                                Toast.makeText(LoginActivity.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
+                                loginProgressBar.setVisibility(View.GONE);
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
 
-
+                            } else {
+                                saveAdminSharedPreferences(true);
+                                Toast.makeText(LoginActivity.this, "Logged In Successfully As Admin ", Toast.LENGTH_SHORT).show();
+                                loginProgressBar.setVisibility(View.GONE);
+                                startActivity(new Intent(LoginActivity.this, AdminHomeActivity.class));
+                                finish();
+                            }
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -113,12 +146,34 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private void saveAdminSharedPreferences(Boolean adminValue) {
+        SharedPreferences sharedPreferences = getSharedPreferences("adminSharedPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean("isAdmin", adminValue);
+        editor.apply();
+
+
+
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
-        if (firebaseAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+        SharedPreferences sharedPreferences = getSharedPreferences("adminSharedPreferences", MODE_PRIVATE);
+        if (firebaseAuth.getCurrentUser() != null && sharedPreferences.getBoolean("isAdmin", false) == false){
+
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
+
+        }
+
+        else if (firebaseAuth.getCurrentUser() != null && sharedPreferences.getBoolean("isAdmin", false) == true){
+
+            startActivity(new Intent(LoginActivity.this, AdminHomeActivity.class));
+            finish();
+
         }
     }
 

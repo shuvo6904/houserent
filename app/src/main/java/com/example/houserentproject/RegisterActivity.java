@@ -42,9 +42,10 @@ public class RegisterActivity extends AppCompatActivity {
         regPass = findViewById(R.id.regPassId);
         regConPass = findViewById(R.id.regConPassId);
         fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
         progressBar = findViewById(R.id.regProgressBarId);
 
-        fStore = FirebaseFirestore.getInstance();
+
 
     }
 
@@ -122,6 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
                 user.put("backImageIdentity", "");
                 user.put("emailVerification", "");
                 user.put("isProfileCompleted", "");
+                user.put("isAdmin", "");
                 documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -133,7 +135,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(RegisterActivity.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
 
-                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 finish();
 
             }

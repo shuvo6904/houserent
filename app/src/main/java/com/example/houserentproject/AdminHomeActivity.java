@@ -6,7 +6,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -20,8 +25,9 @@ import java.util.List;
 
 public class AdminHomeActivity extends AppCompatActivity {
 
-    AdminAdapter adminAdapter;
+    FirebaseAuth firebaseAuth;
 
+    AdminAdapter adminAdapter;
     RecyclerView adminRecyclerView;
     List<HomePageData> adminPageDataList;
     private DatabaseReference adminDatabaseReference;
@@ -32,6 +38,8 @@ public class AdminHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         adminRecyclerView = (RecyclerView)findViewById(R.id.adminRecyclerViewId);
 
@@ -77,5 +85,47 @@ public class AdminHomeActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+
+            case R.id.menuLogoutId:
+                firebaseAuth.signOut();
+                removeSharedPreference();
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
+                return true;
+
+            case R.id.menuResetPassId:
+                startActivity(new Intent(getApplicationContext(), ResetPassActivity.class));
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+
+        }
+
+    }
+
+    private void removeSharedPreference() {
+
+        SharedPreferences sharedPreferences = getSharedPreferences("adminSharedPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("isAdmin");
+        editor.clear();
+        editor.apply();
+
     }
 }
